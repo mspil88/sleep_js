@@ -1,0 +1,77 @@
+:root {
+    --sleep-pink: #ff4b4b;
+    --sleep-dark-pink: #7a2c40;
+    --sleep-light-pink: #DB7093;
+    --sleep-dark-purple: #301934;
+    --sleep-blue: #2c3067;
+    --sleep-light-blue: #045676;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--sleep-dark-purple);
+    font-family: sans-serif;
+}
+
+.nav ul {
+    margin: 0;
+}
+
+.nav li {
+    display: inline;
+}
+
+/* li a:hover .circle {
+    position: relative;
+    z-index: 1;
+    top: -60px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    animation: illuminate 2s ease-out infinite;
+  }
+   */
+
+.nav a {
+    display: inline-block;
+    padding: .7em;
+    padding-right: 1.5em;
+    color: white;
+    text-decoration: none;
+}
+
+.main-nav {
+    text-align: left;
+    font-size: 1.1em;
+    height: 2.5em;
+    font-weight: lighter;
+    border-bottom: 1px solid white;
+}
+
+.logout-elem {
+    display: inline;
+    float: right;
+    margin-right: 1em;
+}
+
+.logout-elem a {
+    padding: .7em;
+}
+
+.nav a:hover {
+    background-color: var(--sleep-light-pink);
+    height: 2.45em;
+    padding-right: 1.5em;
+}
+
+.fa {
+    height: 10em;
+}
