@@ -81,22 +81,34 @@ body {
     height: 100px;
     background-color: pink;
     border-radius: 0.3em;
+    
 }
 
 .diary-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin: 1em 3em;
-    height: 1000px;
-    background-color: pink;
-    border-radius: 0.3em;
+    height: 800px;
+    /* background-color: pink; */
+    /* border-radius: 0.3em; */
+    /* margin-left: 50em; */
 }
 
 .diary-question {
     color: white;
     display: inline-block;
-    width: 30%;
-    padding-right: 5rem;
-    
-    
+    width: 70%;
+    /* padding-right: 50rem; */
+}
+
+.elem-1 {
+    border-radius: 0.3em;
+   
+}
+
+.diary-question-container {
+    background-color: pink;
+    border-radius: 0.3em;
 }
 
 .diary-section {
@@ -106,6 +118,7 @@ body {
     margin: 1em;
     border: none;
     padding: 0.5em 1em 0.5em;  
+    width: 50em;
     
 }
 
@@ -115,8 +128,11 @@ body {
     font-size: 1em;
 }
 
+
+
 .diary-sel {
-    width: 12em;
+    cursor: pointer;
+    width: 13em;
     height: 2em;
     text-align: left;
     border-radius: .2em;
@@ -127,10 +143,64 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0);
     position: relative;
     display: inline-block;
+    padding: 0.3em 0.7em;
+    /* letter-spacing: 0.1em; */
+    
+    
+}
+
+.diary-button {
+    border-radius: 0.3em;
+    height: 50px;
+    margin: 1em;
+    border: none;
+    padding: 0.5em 1em 0.5em;  
+    width: 50em;
+    position: relative;
 }
 
 .diary-option {
     color: black;
 }
 
+.diary-save {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    height: 3em;
+    width: 6em;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 0.8em;
+    background: white;
+    color: black;
+    padding: 0.3em 0.7em;
+    letter-spacing: 0.1em;
+    transition: all 0.7s linear;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background: var(--sleep-dark-purple);
+    color: whitesmoke;
+}
+
+.view {
+    background-color: pink;
+    height: 20em;
+    width: 20em;
+    border-radius: 10em;
+}
+
+.v-1 {
+    margin: 5em 10em;
+}
+
+.v-2 {
+    margin: 5em 10em;
+}
 
