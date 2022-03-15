@@ -77,27 +77,41 @@ body {
 }
 
 .dates-container {
-    margin: 1.5em 3em 1em 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 1.5em 20em 1em 20em;
     height: 100px;
     background-color: pink;
     border-radius: 0.3em;
     
 }
 
+.dt {
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    margin: 0 1em;
+}
+
+
 .diary-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 1em 3em;
-    height: 800px;
-    /* background-color: pink; */
-    /* border-radius: 0.3em; */
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* grid-template-columns: 1fr 1fr; */
+    margin: 1.5em 20em 1em 20em;
+    /* height: 800px; */
+    background-color: pink;
+    border-radius: 0.3em;
     /* margin-left: 50em; */
 }
+
 
 .diary-question {
     color: white;
     display: inline-block;
-    width: 70%;
+    width: 77%;
     /* padding-right: 50rem; */
 }
 
@@ -118,7 +132,7 @@ body {
     margin: 1em;
     border: none;
     padding: 0.5em 1em 0.5em;  
-    width: 50em;
+    /* width: 63em; */
     
 }
 
@@ -155,7 +169,7 @@ body {
     margin: 1em;
     border: none;
     padding: 0.5em 1em 0.5em;  
-    width: 50em;
+    /* width: 63em; */
     position: relative;
 }
 
