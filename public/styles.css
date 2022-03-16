@@ -1,0 +1,251 @@
+:root {
+    --sleep-pink: #ff4b4b;
+    --sleep-dark-pink: #7a2c40;
+    --sleep-light-pink: #DB7093;
+    --sleep-dark-purple: #301934;
+    --sleep-blue: #2c3067;
+    --sleep-light-blue: #045676;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--sleep-dark-purple);
+    font-family: sans-serif;
+}
+
+.nav ul {
+    margin: 0;
+}
+
+.nav li {
+    display: inline;
+}
+
+/* li a:hover .circle {
+    position: relative;
+    z-index: 1;
+    top: -60px;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    animation: illuminate 2s ease-out infinite;
+  }
+   */
+
+.nav a {
+    display: inline-block;
+    padding: .7em;
+    padding-right: 1.5em;
+    color: white;
+    text-decoration: none;
+}
+
+.main-nav {
+    text-align: left;
+    font-size: 1.1em;
+    height: 2.5em;
+    font-weight: lighter;
+    border-bottom: 1px solid white;
+}
+
+.logout-elem {
+    display: inline;
+    float: right;
+    margin-right: 1em;
+}
+
+.logout-elem a {
+    padding: .7em;
+}
+
+.nav a:hover {
+    background-color: var(--sleep-light-pink);
+    height: 2.45em;
+    padding-right: 1.5em;
+}
+
+.fa {
+    height: 10em;
+}
+
+.dates-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 1.5em 20em 1em 20em;
+    height: 100px;
+    background-color: pink;
+    border-radius: 0.3em;
+    min-width: 45em;
+    /* border: 5px solid white; */
+    
+}
+
+.dt {
+    height: 98px;
+    width: 100px;
+    background-color: rgb(219,112,147, 0.9);
+    color: black;
+    margin: 0 1em;
+    transition: all linear 0.3s;
+    /* border: 1px solid white; */
+}
+
+.dt:hover {
+    /* background-color: rgb(219,112,147, 0.5); */
+    background-color: var(--sleep-dark-purple);
+    
+    color: white;
+    /* border: 0.1px solid white; */
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 12px 28px 0px, rgba(255, 255, 255, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+
+.diary-container {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    /* grid-template-columns: 1fr 1fr; */
+    margin: 1.5em 20em 1em 20em;
+    /* height: 800px; */
+    background-color: pink;
+    border-radius: 0.3em;
+    /* margin-left: 50em; */
+    min-width: 45em;
+}
+
+
+.diary-question {
+    color: white;
+    display: inline-block;
+    width: 77%;
+    /* padding-right: 50rem; */
+}
+
+.elem-1 {
+    border-radius: 0.3em;
+   
+}
+
+.diary-question-container {
+    background-color: pink;
+    border-radius: 0.3em;
+}
+
+.diary-section {
+    background-color: var(--sleep-dark-purple);
+    border-radius: 0.3em;
+    height: 50px;
+    margin: 1em;
+    border: none;
+    padding: 0.5em 1em 0.5em;  
+    /* width: 63em; */
+    
+}
+
+.diary-section-header {
+    padding-top: 1em;
+    margin: 1em;
+    font-size: 1em;
+}
+
+
+
+.diary-sel {
+    cursor: pointer;
+    width: 13em;
+    height: 2em;
+    text-align: left;
+    border-radius: .2em;
+    background-color: rgb(219,112,147, 0.5);
+    color: white;
+    padding-left: 0.5em;
+    font-size: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0);
+    position: relative;
+    display: inline-block;
+    padding: 0.3em 0.7em;
+    /* letter-spacing: 0.1em; */
+}
+
+.diary-button {
+    border-radius: 0.3em;
+    height: 50px;
+    margin: 1em;
+    border: none;
+    padding: 0.5em 1em 0.5em;  
+    /* width: 63em; */
+    position: relative;
+}
+
+.diary-option {
+    color: black;
+}
+
+.diary-save {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    height: 3em;
+    width: 6em;
+}
+
+.dt {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    /* height: 100px; */
+    }
+
+.dt-text {
+    margin-top: 1em;
+    margin-left: 1em;
+}
+
+.dt-number {
+    margin-top: 0.1em;
+    margin-left: 0.6em;
+    font-size: 40px;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 0.8em;
+    background: white;
+    color: black;
+    padding: 0.3em 0.7em;
+    letter-spacing: 0.1em;
+    transition: all 0.7s linear;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background: var(--sleep-dark-purple);
+    color: whitesmoke;
+}
+
+.view {
+    background-color: pink;
+    height: 20em;
+    width: 20em;
+    border-radius: 10em;
+}
+
+.v-1 {
+    margin: 5em 10em;
+}
+
+.v-2 {
+    margin: 5em 10em;
+}
+
