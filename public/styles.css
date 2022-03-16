@@ -84,6 +84,7 @@ body {
     height: 100px;
     background-color: pink;
     border-radius: 0.3em;
+    min-width: 45em;
     /* border: 5px solid white; */
     
 }
@@ -118,6 +119,7 @@ body {
     background-color: pink;
     border-radius: 0.3em;
     /* margin-left: 50em; */
+    min-width: 45em;
 }
 
 
@@ -199,6 +201,8 @@ body {
 .dt {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+    /* height: 100px; */
     }
 
 .dt-text {
