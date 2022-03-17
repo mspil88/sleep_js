@@ -2,17 +2,28 @@ const dateDivs = document.getElementsByClassName("dt-number");
 const prevBtn = document.getElementsByClassName("btn-prev")[0];
 const datesContainer = document.getElementsByClassName("dates-container")[0];
 
+// temp date object to test out class
+let day_array = ['Tue','Web','Thur', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur']
+let month_array = ['Mar', 'Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar',]
 let date_array = ['01','02','03','04','05','06','07','08','09','10'];
 
-console.log(datesContainer);
+const zipped3 = (x, y, z) => Array(Math.max(x.length, y.length, z.length)).fill().map((_,i) => [x[i], y[i], z[i]]);
 
-const getCurrentDates = () => {
-    let dates = []
-    for(const i of dateDivs) {
-        dates.push(i.innerHTML);
-    }
-    return [dates[0], dates[dates.length-1]];
+
+const dateOject = (day, month, date) => {
+    return {days: day,
+           months: month,
+           dates: date}
 }
+
+let date_container = [];
+
+for(let [i, j, k] of zipped3(day_array, month_array, date_array)) {
+    date_container.push(dateOject(i, j, k))
+}
+
+console.log(date_container.dates);
+
 
 class DateSlider {
     constructor(root, dateObj) {
@@ -35,9 +46,9 @@ class DateSlider {
     
     this.elem.prev.addEventListener("click", ()=> {
         console.log("prev button");
-        let dates = this.getCurrentDateBounds();
+        let [dates, days, months] = this.getCurrentDateBounds();
         console.log(dates);
-        this.setDates(dates);
+        this.setDates(dates, days, months);
     })
 
     this.elem.next.addEventListener("click", ()=> {
@@ -47,27 +58,33 @@ class DateSlider {
     getCurrentDateBounds() {
         this.currentDates = [this.elem.dt1.querySelector(".dt-number").innerHTML, this.elem.dt7.querySelector(".dt-number").innerHTML];
         const [_min, _max] = this.currentDates;
-        const minIdx = this.dateObj.indexOf(_min);
-        const maxIdx = this.dateObj.indexOf(_max);
-        return this.dateObj.slice(minIdx-1, maxIdx);
+        let dates_container = [];
+        let days_container = [];
+        let month_container = [];
+
+        for(let i of this.dateObj) {
+            dates_container.push(i.dates);
+            days_container.push(i.days);
+            month_container.push(i.months);
+        } 
+        const minIdx = dates_container.indexOf(_min);
+        const maxIdx = dates_container.indexOf(_max);
+        return [dates_container.slice(minIdx-1, maxIdx), days_container.slice(minIdx-1, maxIdx), month_container.slice(minIdx-1, maxIdx)];
     }
 
-    setDates(dates) {
+    setDates(dates, days, months) {
         const elems = [this.elem.dt1, this.elem.dt2, this.elem.dt3, this.elem.dt4, this.elem.dt5, this.elem.dt6, this.elem.dt7];
-        const zipped = (x, y) => Array(Math.max(x.length, y.length)).fill().map((_,i) => [x[i], y[i]]);
+        const zipped = (x, y, z, a) => Array(Math.max(x.length, y.length, z.length, 
+                                                a.length)).fill().map((_,i) => [x[i], y[i], z[i], a[i]]);
 
-        for(let [i, j] of zipped(elems, dates)) {
+        for(let [i, j, k, w] of zipped(elems, dates, days, months)) {
             i.querySelector(".dt-number").innerHTML = j;
+            i.querySelector(".dt-text").innerHTML = `${k} ${w}`;
         };
 
-    //     for(let i of elems) {
-    //         for(let j of dates) {
-    //             i.querySelector(".dt-number").innerHTML = j;
-    //     }
-    // }
     }
 
 
 };
 
-let dateSlider = new DateSlider(datesContainer, date_array);
+let dateSlider = new DateSlider(datesContainer, date_container);
