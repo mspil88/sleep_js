@@ -1,6 +1,79 @@
 const dateDivs = document.getElementsByClassName("dt-number");
 const prevBtn = document.getElementsByClassName("btn-prev")[0];
 const datesContainer = document.getElementsByClassName("dates-container")[0];
+const saveSleepData = document.getElementsByClassName("diary-save")[0];
+const timeToBed = document.getElementsByClassName("sel-to-bed");
+const timeToSleep = document.getElementsByClassName("sel-to-sleep");
+const numTimesAwake = document.getElementsByClassName("sel-times-awake");
+const timeAwake = document.getElementsByClassName("sel-amount-time-awake");
+const timeOutBed = document.getElementsByClassName("sel-out-bed");
+const timeGetOutBed = document.getElementsByClassName("sel-get-out-bed");    
+const sleptWell = document.getElementsByClassName("sel-slept-well");
+const feelNextDay = document.getElementsByClassName("sel-felt-nxt-day");
+
+const splitTime = (time) => {
+    const tempSplit = time.split(":");
+    const dayPart = time.slice(time.length-2, time.length);
+    return [parseInt(tempSplit[0]), parseInt(tempSplit[1].replace("am","").replace("pm", "")), dayPart]
+}
+
+const convertTo24hr = (timeArray) => {
+    timeArrayCpy = [...timeArray];
+    if(timeArray.includes("pm")) {
+        timeArrayCpy[0] = timeArray[0] + 12  
+    } else if((timeArray.includes(12)) & (timeArray.includes("am"))) {
+        timeArrayCpy[0] = 0;
+    } 
+    return timeArrayCpy;
+}
+
+const splitConvert = (time) => {
+    timeArray = splitTime(time);
+    return convertTo24hr(timeArray);
+}
+
+const timeInBed = (startArray, endArray) => {
+    SCALE_DECIMAL = 60;
+    const start_h = startArray[0];
+    const start_m =  startArray[1];
+    const end_h = endArray[0];
+    const end_m =  endArray[1];
+
+    const start_time = start_h + start_m / SCALE_DECIMAL;
+    const end_time = end_h + end_m / SCALE_DECIMAL;
+
+
+    return ((start_time - end_time) + 24) % 24
+}
+
+
+const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, feelNextDay) => {
+    return {bedTime: timeToBed.value,
+    timeToFallAsleep: timeToSleep.value,
+    numberTimesAwake: numTimesAwake.value,
+    amountTimeAwake: timeAwake.value,
+    timeGotOutBed: timeOutBed.value,
+    timeToGetOutBed: timeGetOutBed.value,
+    qualityOfSleep: sleptWell.value,
+    nextDayFeeling: feelNextDay.value,
+    
+    }
+}
+
+
+saveSleepData.addEventListener("click", ()=> {
+    console.log("clicked save button");
+    const s1 = splitConvert(timeToBed[0].value);
+    const s2 = splitConvert(timeOutBed[0].value);
+    console.log(s1, s2)
+    const hoursInBed = timeInBed(s2, s1);
+    console.log(`time in bed ${hoursInBed}`);
+    data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], sleptWell[0], feelNextDay[0]);
+    console.log(feelNextDay[0]);
+    console.log(data);
+})
+
+
 
 // temp date object to test out class
 let day_array = ['Tue','Web','Thur', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur']
