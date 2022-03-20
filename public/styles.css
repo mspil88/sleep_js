@@ -81,7 +81,7 @@ body {
     flex-direction: row;
     justify-content: center;
     margin: 1.5em 20em 1em 20em;
-    height: 100px;
+    height: 50px;
     background-color: pink;
     border-radius: 0.3em;
     min-width: 45em;
@@ -90,14 +90,16 @@ body {
 }
 
 .dt {
-    height: 98px;
-    width: 100px;
-    background-color: rgb(219,112,147, 0.9);
-    color: black;
-    margin: 0 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    cursor: pointer;
+    background-color: rgb(219,112,147, 0.0);
     transition: all linear 0.3s;
-    /* border: 1px solid white; */
-}
+    border-right: 1px solid white;
+    border-left: 1px solid white;
+    /* margin: 0 1em; */
+ } 
 
 .dt:hover {
     /* background-color: rgb(219,112,147, 0.5); */
@@ -106,6 +108,24 @@ body {
     color: white;
     /* border: 0.1px solid white; */
     box-shadow: rgba(255, 255, 255, 0.2) 0px 12px 28px 0px, rgba(255, 255, 255, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+
+.dt-text {
+    margin-bottom: 10px;
+    margin-left: .3em;
+    margin-top: .4em;
+  
+}
+
+.dt-number {
+    
+    margin-left: 0.6em;
+    margin-right: 0.2em;
+    margin-top: .1em;
+    font-size: 2.5em;
+    font-weight: bold;
+    
 }
 
 
@@ -198,24 +218,6 @@ body {
     width: 6em;
 }
 
-.dt {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    /* height: 100px; */
-    }
-
-.dt-text {
-    margin-top: 1em;
-    margin-left: 1em;
-}
-
-.dt-number {
-    margin-top: 0.1em;
-    margin-left: 0.6em;
-    font-size: 40px;
-}
-
 .btn {
     cursor: pointer;
     border: none;
@@ -227,6 +229,20 @@ body {
     letter-spacing: 0.1em;
     transition: all 0.7s linear;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btn-prev {
+    border-top-left-radius: 0.3em;
+    border-bottom-left-radius: 0.3em;
+}
+
+.btn-next {
+    border-top-right-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
+}
+
+.btn-prev:hover, .btn-next:hover  {
+    border: 1px solid white;
 }
 
 .btn:hover {
