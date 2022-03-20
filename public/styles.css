@@ -231,9 +231,14 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.btn-prev, .btn-next {
-    border-top-right-radius: 0.3em;
+.btn-prev {
+    border-top-left-radius: 0.3em;
     border-bottom-left-radius: 0.3em;
+}
+
+.btn-next {
+    border-top-right-radius: 0.3em;
+    border-bottom-right-radius: 0.3em;
 }
 
 .btn-prev:hover, .btn-next:hover  {
