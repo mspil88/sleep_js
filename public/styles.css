@@ -128,6 +128,30 @@ body {
     
 }
 
+.mood-survey-container {
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
+    margin: 1.5em 20em 1em 20em;
+    /* height: 800px; */
+    background-color: pink;
+    border-radius: 0.3em;
+    /* margin-left: 50em; */
+    min-width: 45em;
+}
+
+.mood-gr1 {
+    /* background-color: red; */
+    height: 500px;
+    /* width: 100px; */
+    border-right: 1px solid black
+}
+
+.mood-gr2 {
+    /* background-color: red; */
+    height: 100px;
+    /* width: 100px; */
+}
 
 .diary-container {
     display: flex; 
@@ -177,6 +201,10 @@ body {
     font-size: 1em;
 }
 
+.mood-dialogue {
+    padding-top: 1em;
+    margin: 1em;
+}
 
 
 .diary-sel {
