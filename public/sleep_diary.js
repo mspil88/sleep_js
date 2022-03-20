@@ -78,7 +78,8 @@ const timeAsleep = (hoursInBed, timeToFall, timeTogetOut, timeGaps) => {
 }
 
 
-const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, feelNextDay, timeInBed) => {
+const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, 
+                  feelNextDay, hoursInBed, totalTimeAsleep, sef) => {
     return {bedTime: timeToBed.value,
     timeToFallAsleep: timeToSleep.value,
     numberTimesAwake: numTimesAwake.value,
@@ -87,8 +88,9 @@ const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed,
     timeToGetOutBed: timeGetOutBed.value,
     qualityOfSleep: sleptWell.value,
     nextDayFeeling: feelNextDay.value,
-    timeSpentInBed: timeInBed
-    
+    hoursSpentInBed: hoursInBed,
+    hoursSpentAsleep: totalTimeAsleep,
+    sleepEfficiencyScore: sef
     }
 }
 
@@ -102,13 +104,12 @@ saveSleepData.addEventListener("click", ()=> {
     const s1 = splitConvert(timeToBed[0].value);
     const s2 = splitConvert(timeOutBed[0].value);
     const hoursInBed = timeInBed(s2, s1);
-    console.log(`time in bed ${hoursInBed}`);
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
-    console.log(`time asleep ${totalTimeAsleep}`);
-    console.log(`SEF: ${sleepEfficiency(totalTimeAsleep, hoursInBed)}`)
+    console.log(`total time asleep ${totalTimeAsleep}`)
+    const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
     
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed);
+                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore);
     console.log(feelNextDay[0]);
     console.log(data);
 })
