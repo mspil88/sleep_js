@@ -166,11 +166,20 @@ btns.forEach(btn => {
             }
             
         }
+        else if((action.includes("prev")) && (currentIndex >0)) {
+            console.log("back");
+            const prevQuestionTitle = questionArray[currentIndex-1];
+            const prevQuestion = questionsArray[currentIndex-1];
+            moodQuestionTitle.innerHTML = prevQuestionTitle;
+            moodQuestion.innerHTML = prevQuestion;
+        }
+        
         else if((action.includes("start"))) {
             console.log("start")
             startSurvey();
             
         }
+        
         
     })
 }
