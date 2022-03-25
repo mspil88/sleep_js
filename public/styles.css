@@ -410,4 +410,43 @@ body {
 .prev-btn {
     margin-right: 22em;
 }
-  
+
+
+progress {
+    border-radius: 3px;
+    margin-left: 30px;
+    height: 50px;
+    width: 400px;
+    box-shadow: 1px 1px 4px rgba( 0, 0, 0, 0.2 );
+    margin-bottom: 2em;
+  }
+  progress::-webkit-progress-bar {
+    background-color: white;
+    border-radius: 3px;
+  }
+  progress::-webkit-progress-value {
+    background-color: var(--sleep-dark-purple);
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    height: 50px;
+    /* box-shadow: 1px 1px 1px 1px rgba( 0, 0, 0, 0.8 ); */
+  }
+  progress::-moz-progress-bar {
+    /* style rules */
+  }
+
+  #depression-score, #anxiety-score {
+    color: black;
+    margin: 1.5em;
+    font-size: 1em;
+    
+}
+
+#depression-score-val, #anxiety-score-val {
+    font-size: 25px;
+}
+
+#prev-depression-score, #prev-anxiety-score {
+    display: block;
+    margin: 1em;
+}

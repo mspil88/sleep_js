@@ -48,8 +48,12 @@ const appendQuestionData = (questionNumber) => {
     questionResponseContainer.childNodes.forEach((node)=> {
     if(node.tagName == "LABEL") {
         const checked = node.childNodes[1].checked;
+        
         if(checked) {
-            dataContainer.push(moodSurveyResponses(questionNumber, node.childNodes[0].nodeValue.trim(), checked))};
+            dataContainer.push(moodSurveyResponses(questionNumber, node.childNodes[0].nodeValue.trim(), checked))}
+        // else {
+        //     dataContainer.push(moodSurveyResponses(questionNumber, node.childNodes[0].nodeValue.trim(), 0))
+        // };
     }})};
 
 
@@ -73,6 +77,62 @@ const startSurvey = () => {
 
 }
 
+const countSurveyScores = (surveyResponses) => {
+    let depressionScores = 0;
+    let anxietyScores = 0; 
+
+    for(let i of surveyResponses) {
+        if(i.questionNumber <= 6) {
+            depressionScores += i.score;
+        } else {
+            anxietyScores += i.score;
+        }
+    }
+    return [depressionScores, anxietyScores];
+}
+
+const clearQuestions = () => {
+    questionResponseContainer.remove();
+    moodQuestion.remove();
+    nextBackContainer.remove();
+}
+
+function createProgBar(parent, type, value) {
+    const e = document.createElement("div")
+    e.id = "results-container";
+    const p = document.createElement("p")
+    p.innerHTML = `Your ${type} score is  `;
+    p.id = `${type}-score`;
+    const s = document.createElement("span");
+    s.id = `${type}-score-val`;
+    const prog = document.createElement("progress");
+    prog.id = `${type}-prog`;
+    prog.max = 24;
+    parent.appendChild(e);
+    parent.appendChild(p);
+    p.appendChild(s);
+    parent.appendChild(prog);
+    s.innerHTML= value;
+    prog.value = value;
+}
+
+const resultsComparison = (parent) => {
+    const thisWeekPrevWeek = document.createElement("div");
+    const prevDepression = document.createElement("span");
+    const prevAnxiety = document.createElement("span");
+    thisWeekPrevWeek.id = "this-week-prev-week-container"
+    prevDepression.id = "prev-depression-score"
+    prevAnxiety.id = "prev-anxiety-score"
+    prevDepression.innerHTML = "Your score has increased by x points"
+    prevAnxiety.innerHTML = "Your score has increased by x points"
+
+    thisWeekPrevWeek.append(prevDepression);
+    thisWeekPrevWeek.append(prevAnxiety);
+
+    parent.appendChild(thisWeekPrevWeek);
+
+}
+
 btns.forEach(btn => {
     btn.addEventListener("click", (event) => {
         const action = event.currentTarget.className;
@@ -91,7 +151,18 @@ btns.forEach(btn => {
             const nextQuestion = questionsArray[currentIndex+1];
             moodQuestionTitle.innerHTML = nextQuestionValue;
             moodQuestion.innerHTML = nextQuestion;
-            clearOptions(); 
+            clearOptions();
+
+            if(currentIndex === 14) {
+                console.log("hit index");
+                clearQuestions();
+                let [depression, anxiety] = countSurveyScores(dataContainer);
+                console.log(depression, anxiety)
+                createProgBar(moodQuestionContainer[0], "depression", depression);
+                createProgBar(moodQuestionContainer[0], "anxiety", anxiety);
+                resultsComparison(moodQuestionContainer[0]);
+            }
+            
         }
         else if((action.includes("start"))) {
             console.log("start")
