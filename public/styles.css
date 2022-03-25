@@ -168,6 +168,7 @@ body {
 
 .question-response-container {
     /* margin-bottom: 8em; */
+    margin-bottom: 150px;
     visibility: hidden;
 }
 
@@ -395,8 +396,8 @@ body {
     margin-top: 5%; */
     display: inline;
     margin-left: 2em;
-    margin-top: 8em;
-    position: fixed;
+    
+    position: relative;
     visibility: hidden;
     
 }
