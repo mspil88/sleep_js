@@ -157,6 +157,7 @@ btns.forEach(btn => {
                 console.log("hit index");
                 clearQuestions();
                 let [depression, anxiety] = countSurveyScores(dataContainer);
+                moodQuestionTitle.style.fontWeight = "bold";
                 console.log(depression, anxiety)
                 createProgBar(moodQuestionContainer[0], "depression", depression);
                 createProgBar(moodQuestionContainer[0], "anxiety", anxiety);
