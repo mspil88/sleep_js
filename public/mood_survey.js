@@ -2,11 +2,14 @@ const moodQuestionTitle = document.querySelector(".mood-question-title");
 const moodQuestion = document.querySelector(".mood-question");
 const questionResponseContainer = document.querySelector(".question-response-container");
 const btns = document.querySelectorAll("button");
+const moodQuestionContainer = document.querySelectorAll(".mood-question-container");
+const nextBackContainer = document.querySelector(".next-back-container");
 
 const questionArray = ["Question 2 of 16", "Question 3 of 16", "Question 4 of 16", "Question 5 of 16", "Question 6 of 16",
     "Question 7 of 16", "Question 8 of 16", "Question 9 of 16", "Question 10 of 16",
     "Question 11 of 16", "Question 12 of 16", "Question 13 of 16", "Question 14 of 16", "Question 15 of 16",
     "Question 16 of 16", "Results"]
+
 
 const questionsArray = [
     "How often have you had little interest or pleasure in doing things?",
@@ -58,6 +61,18 @@ const clearOptions = () => {
     })
 }
 
+const startSurvey = () => {
+    moodQuestion.style.visibility = "visible";
+    moodQuestionTitle.style.visibility = "visible";
+    questionResponseContainer.style.visibility = "visible";
+    nextBackContainer.style.visibility = "visible";
+    const startBtn = document.querySelector(".start-btn"); 
+    startBtn.disabled = true;
+    startBtn.style.color = "white";
+    startBtn.style.backgroundColor ="#301934";
+
+}
+
 btns.forEach(btn => {
     btn.addEventListener("click", (event) => {
         const action = event.currentTarget.className;
@@ -77,6 +92,11 @@ btns.forEach(btn => {
             moodQuestionTitle.innerHTML = nextQuestionValue;
             moodQuestion.innerHTML = nextQuestion;
             clearOptions(); 
+        }
+        else if((action.includes("start"))) {
+            console.log("start")
+            startSurvey();
+            
         }
         
     })

@@ -138,19 +138,36 @@ body {
     border-radius: 0.3em;
     /* margin-left: 50em; */
     min-width: 45em;
+    min-height: 40em;
+    max-height: 40em;
+}
+
+.mood-question {
+    margin-bottom: 2em;
+    visibility: hidden;
+    
+}
+
+.mood-question-title {
+    visibility: hidden;
 }
 
 .mood-gr1 {
     /* background-color: red; */
-    height: 500px;
+    
     /* width: 100px; */
     border-right: 1px solid black
 }
 
 .mood-gr2 {
     /* background-color: red; */
-    height: 100px;
+    /* height: 100px; */
     /* width: 100px; */
+}
+
+.question-response-container {
+    /* margin-bottom: 8em; */
+    visibility: hidden;
 }
 
 .diary-container {
@@ -205,6 +222,15 @@ body {
     padding-top: 1em;
     margin: 1em;
 }
+
+.start-btn {
+    margin-top: 10em;
+    margin-left: 15em;
+    height: 5em;
+    width: 10em;
+    font-size: 5em;
+}
+
 
 
 .diary-sel {
@@ -362,8 +388,12 @@ body {
 }
 
 .next-back-container {
-    margin-top: 6em;
+    /* margin-top: 6em; */
     margin-left: 2em;
+    margin-top: 12%;
+    position: absolute;
+    visibility: hidden;
+    
 }
 
 .prev-btn, .next-btn {
