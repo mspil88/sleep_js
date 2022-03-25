@@ -149,6 +149,7 @@ btns.forEach(btn => {
             
             const nextQuestionValue = questionArray[currentIndex+1];
             const nextQuestion = questionsArray[currentIndex+1];
+           
             moodQuestionTitle.innerHTML = nextQuestionValue;
             moodQuestion.innerHTML = nextQuestion;
             clearOptions();
