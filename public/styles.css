@@ -455,8 +455,9 @@ progress {
     display:flex;
     flex-direction: row; 
     justify-content: space-between;
-    
     margin: 10em;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 
