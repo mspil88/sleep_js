@@ -450,3 +450,55 @@ progress {
     display: block;
     margin: 1em;
 }
+
+.choose-container {
+    display:flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    
+    margin: 10em;
+}
+
+
+
+.icon, .select-title {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.icon {
+    
+    height: 0;
+    margin-top: 25%;
+    /* margin-bottom: 15%; */
+    margin-left: 45%;
+    height: 0;
+    /* margin-top: 30%; */
+    /* margin-bottom: 15%; */
+    /* display: table; */
+    /* margin: 0 auto; */
+}
+
+.select-title {
+    margin-top: 50px;   
+    margin-left: 38%;   
+    /* margin: 0 auto; */
+}
+
+.select-route {
+    background-color: var(--sleep-dark-purple);
+    height: 15em;
+    width: 20em;
+    color: white;
+    border: 2px solid white;
+    padding: 0;
+}
+
+.select-route:hover {
+    
+    background-color: var(--sleep-light-pink);
+    color: black;
+    border: 3px solid white;
+
+}
