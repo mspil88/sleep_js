@@ -467,23 +467,21 @@ progress {
     
 }
 
+
 .icon {
-    
-    height: 0;
+    width: 100%;
+    height: 50px;
+    display: inline-block;
+    margin-left: 40%;
     margin-top: 25%;
-    /* margin-bottom: 15%; */
-    margin-left: 45%;
-    height: 0;
-    /* margin-top: 30%; */
-    /* margin-bottom: 15%; */
-    /* display: table; */
-    /* margin: 0 auto; */
+  
 }
 
+
 .select-title {
-    margin-top: 50px;   
-    margin-left: 38%;   
-    /* margin: 0 auto; */
+ 
+    display: inline-block;
+    margin-left: 35%;
 }
 
 .select-route {
@@ -492,7 +490,8 @@ progress {
     width: 20em;
     color: white;
     border: 2px solid white;
-    padding: 0;
+    /* padding: 0; */
+  
 }
 
 .select-route:hover {
