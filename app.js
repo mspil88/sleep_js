@@ -1,18 +1,26 @@
 require("dotenv").config();
 require("express-async-errors");
-
 const express = require("express");
 const app = express();
 
+// connect to DB
+
+
+// routers
+const authRouter = require("./routes/auth");
+const sleepRouter = require("./routes/sleep");
+
+
+
+
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const { stat } = require("fs");
+
 
 app.use(express.json);
 
-app.get("/", (req, res) => {
-    res.send("sleep_api");
-})
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/sleep", sleepRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
@@ -28,3 +36,5 @@ const start = async () => {
 }
 
 start();
+
+
