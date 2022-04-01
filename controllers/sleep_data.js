@@ -7,7 +7,8 @@ const getSleep = async(req, res) => {
 }
 
 const createSleep = async(req, res) => {
-    res.send("get all sleep");
+    console.log("post sleep")
+    res.json(req.user);
 }
 
 const updateSleep = async(req, res) => {
