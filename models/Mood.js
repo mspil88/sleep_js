@@ -8,6 +8,11 @@ const MoodSchema = new mongoose.Schema({
     anxiety: {
         type: Number,
         required: [true]
+    },
+    createdBy: {
+        type:mongoose.Types.ObjectId,
+        ref:'User',
+        required:[true]
     }
 }, {timestamps: true}) 
 
