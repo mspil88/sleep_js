@@ -4,7 +4,8 @@ const express = require("express");
 const app = express();
 
 // connect to DB
-const connectDB = require("./db/connect")
+const connectDB = require("./db/connect");
+const authenticateUser = require("./middleware/authentication");
 
 
 // routers
@@ -20,8 +21,8 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
 
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/sleep", sleepRouter);
+app.use("/api/v1/auth", authenticateUser, authRouter);
+app.use("/api/v1/sleep", authenticateUser, sleepRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
