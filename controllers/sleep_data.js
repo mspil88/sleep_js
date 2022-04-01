@@ -47,7 +47,6 @@ const updateSleep = async(req, res) => {
     }
 
 const deleteSleep = async(req, res) => {
-    console.log("delete sleep");
     const {user:{userId}, params:{id:sleepId}} = req;
 
     const sleep = await Sleep.findOneAndRemove({
