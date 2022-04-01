@@ -11,6 +11,7 @@ const authenticateUser = require("./middleware/authentication");
 // routers
 const authRouter = require("./routes/auth");
 const sleepRouter = require("./routes/sleep");
+const moodRouter = require("./routes/mood");
 
 
 //middleware
@@ -23,6 +24,8 @@ app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/sleep", authenticateUser, sleepRouter);
+app.use("/api/v1/mood", authenticateUser, moodRouter);
+
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
