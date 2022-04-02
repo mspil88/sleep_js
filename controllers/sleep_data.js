@@ -23,7 +23,7 @@ const createSleep = async(req, res) => {
     req.body.createdBy = req.user.userId;
     req.body.createdOn = new Date(Date.now());
     const sleep = await Sleep.create(req.body);
-    res.status(400).json({sleep});
+    res.status(StatusCodes.OK).json({sleep});
 }
 
 const updateSleep = async(req, res) => {
