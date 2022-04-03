@@ -98,6 +98,11 @@ const sleepEfficiency = (timeSpentAsleep, timeSpentInBed) => {
     return Math.round(Number(timeSpentAsleep/ timeSpentInBed)*100, 1);
 }
 
+const postSleepData = async(sleepObj) => {
+    const config = {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}};
+    await axios.post("api/v1/sleep", sleepObj, config);
+}
+
 
 saveSleepData.addEventListener("click", ()=> {
     console.log("clicked save button");
@@ -112,6 +117,7 @@ saveSleepData.addEventListener("click", ()=> {
                     sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore);
     console.log(feelNextDay[0]);
     console.log(data);
+    postSleepData(data);
 })
 
 
