@@ -4,6 +4,7 @@ const questionResponseContainer = document.querySelector(".question-response-con
 const btns = document.querySelectorAll("button");
 const moodQuestionContainer = document.querySelectorAll(".mood-question-container");
 const nextBackContainer = document.querySelector(".next-back-container");
+const daySinceLastSurvey = document.querySelector(".days-since-last-survey");
 
 const questionArray = ["Question 2 of 16", "Question 3 of 16", "Question 4 of 16", "Question 5 of 16", "Question 6 of 16",
     "Question 7 of 16", "Question 8 of 16", "Question 9 of 16", "Question 10 of 16",
@@ -116,20 +117,38 @@ function createProgBar(parent, type, value) {
     prog.value = value;
 }
 
-const resultsComparison = (parent) => {
+const resultsComparison = (parent, depressionScore, anxietyScore) => {
     const thisWeekPrevWeek = document.createElement("div");
     const prevDepression = document.createElement("span");
     const prevAnxiety = document.createElement("span");
-    thisWeekPrevWeek.id = "this-week-prev-week-container"
-    prevDepression.id = "prev-depression-score"
-    prevAnxiety.id = "prev-anxiety-score"
-    prevDepression.innerHTML = "Your score has increased by x points"
-    prevAnxiety.innerHTML = "Your score has increased by x points"
+    const [prevDepressionScore, prevAnxietyScore] = JSON.parse(localStorage.getItem("mood"));
+    thisWeekPrevWeek.id = "this-week-prev-week-container";
+    prevDepression.id = "prev-depression-score";
+    prevAnxiety.id = "prev-anxiety-score";
+
+    const depressionDiff = depressionScore - prevDepressionScore;
+    const anxietyDiff = anxietyScore - prevAnxietyScore;
+
+    const setScore = (element, scoreType, scoreDiff) => {
+        if(scoreDiff >0) {
+            element.textContent = `Your ${scoreType} score has increased by ${scoreDiff}.`
+        } else if(scoreDiff === 0) {
+            element.textContent = `Your ${scoreType} score has not changed.`
+        } else {
+            element.textContent = `Your ${scoreType} score has decrease by ${Math.abs(scoreDiff)}.`
+        }
+        console.log(scoreDiff);
+    }
+    
+  
 
     thisWeekPrevWeek.append(prevDepression);
     thisWeekPrevWeek.append(prevAnxiety);
 
     parent.appendChild(thisWeekPrevWeek);
+
+    setScore(prevDepression, "depression", depressionDiff);
+    setScore(prevAnxiety, "anxiety", anxietyDiff);
 
 }
 
@@ -141,6 +160,27 @@ const moodData = (depressionScore, anxietyScore) => {
 const postMoodData = async(moodObj) => {
     const config  = {headers: {Authorization:  `Bearer ${localStorage.getItem("token")}`}};
     await axios.post("api/v1/mood", moodObj, config);
+}
+
+const getMoodData = async() => {
+    const config  = {headers: {Authorization:  `Bearer ${localStorage.getItem("token")}`}};
+    const data = await axios.get("api/v1/mood", config);
+    return data.data;
+}
+
+window.onload = async (event) => {
+    data = await getMoodData();
+    data = data.mood[data.mood.length-1];
+    const toLocal = [data.depression, data.anxiety, data.createdAt.slice(0, 10)];
+    const currentDate = new Date().toISOString().slice(0, 10);
+    const dayDiff = Math.ceil(Math.abs(new Date(currentDate) - new Date(toLocal[2]))/(1000*60*60*24));
+    localStorage.setItem("mood", JSON.stringify(toLocal));
+    
+    if(dayDiff === 0) {
+        daySinceLastSurvey.textContent = "You last took this survey today."    
+    } else {
+        daySinceLastSurvey.textContent = `You last took this survey ${dayDiff} days ago.`;
+    }
 }
 
 btns.forEach(btn => {
@@ -172,7 +212,7 @@ btns.forEach(btn => {
                 console.log(depression, anxiety)
                 createProgBar(moodQuestionContainer[0], "depression", depression);
                 createProgBar(moodQuestionContainer[0], "anxiety", anxiety);
-                resultsComparison(moodQuestionContainer[0]);
+                resultsComparison(moodQuestionContainer[0], depression, anxiety);
                 const mood = moodData(depression, anxiety);
                 console.log(mood);
                 postMoodData(mood); 

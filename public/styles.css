@@ -566,3 +566,8 @@ progress {
     color: darkred;
 
 } 
+
+.days-since-last-survey {
+    display: inline;
+    
+}
