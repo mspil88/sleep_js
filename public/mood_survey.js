@@ -133,6 +133,16 @@ const resultsComparison = (parent) => {
 
 }
 
+const moodData = (depressionScore, anxietyScore) => {
+    return {depression: depressionScore,
+            anxiety: anxietyScore}
+}
+
+const postMoodData = async(moodObj) => {
+    const config  = {headers: {Authorization:  `Bearer ${localStorage.getItem("token")}`}};
+    await axios.post("api/v1/mood", moodObj, config);
+}
+
 btns.forEach(btn => {
     btn.addEventListener("click", (event) => {
         const action = event.currentTarget.className;
@@ -163,6 +173,9 @@ btns.forEach(btn => {
                 createProgBar(moodQuestionContainer[0], "depression", depression);
                 createProgBar(moodQuestionContainer[0], "anxiety", anxiety);
                 resultsComparison(moodQuestionContainer[0]);
+                const mood = moodData(depression, anxiety);
+                console.log(mood);
+                postMoodData(mood); 
             }
             
         }
