@@ -193,6 +193,7 @@ class DateSlider {
             dt5: root.querySelector(".dt-5"),
             dt6: root.querySelector(".dt-6"),
             dt7: root.querySelector(".dt-7"),
+            diaryDate: document.querySelector(".diary-date")
         };
         this.elems = [this.elem.dt1, this.elem.dt2, this.elem.dt3, this.elem.dt4, this.elem.dt5, this.elem.dt6, this.elem.dt7];
         this.setInitialDates();
@@ -207,6 +208,55 @@ class DateSlider {
             console.log("error")
             //make button purple and/ or disable
         }
+    })
+    //PLACEHOLDER TO CHECK IT WORKS
+    this.elem.dt1.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt1.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt1.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt2.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt2.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt2.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt3.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt3.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt3.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt4.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt4.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt4.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt5.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt5.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt5.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt6.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt6.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt6.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt7.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt7.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt7.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
     })
 
     this.elem.next.addEventListener("click", ()=> {
@@ -228,6 +278,13 @@ class DateSlider {
             i.querySelector(".dt-text").innerHTML = `${j.days} ${j.months}`;
         };
         
+    }
+
+    setDateForDiary(objElem) {
+        const dayMonth = objElem.children[0].textContent.split(" ");
+        const dateVal = objElem.dateElem.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        return dateText
     }
 
     getCurrentDateBounds(direction) {
