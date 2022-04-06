@@ -211,8 +211,12 @@ class DateSlider {
 
     this.elem.next.addEventListener("click", ()=> {
         console.log("next button");
-        let [dates, days, months] = this.getCurrentDateBounds("backwards");
-        this.setDates(dates, days, months);
+        try {
+            let [dates, days, months] = this.getCurrentDateBounds("backwards");
+            this.setDates(dates, days, months);
+        } catch (error) {
+            console.log("index out of bounds")
+        }
     })}
 
     setInitialDates() {
@@ -243,12 +247,14 @@ class DateSlider {
         const minIdx = dates_container.indexOf(_min);
         const maxIdx = dates_container.indexOf(_max);
 
+
+        //this does need a clean up but works for now
         if((direction === "forwards") && (minIdx > 0)) {
             return [dates_container.slice(minIdx-1, maxIdx), days_container.slice(minIdx-1, maxIdx), 
                 month_container.slice(minIdx-1, maxIdx)];            
-        } else if((direction === "backwards")) {
-            return [dates_container.slice(minIdx, maxIdx+1), days_container.slice(minIdx, maxIdx+1), 
-                month_container.slice(minIdx, maxIdx+1)];
+        } else if((direction === "backwards") && (maxIdx+2 <= 14)) {
+            return [dates_container.slice(minIdx+1, maxIdx+2), days_container.slice(minIdx+1, maxIdx+2), 
+                month_container.slice(minIdx+1, maxIdx+2)];
         }
     }
 
