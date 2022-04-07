@@ -10,6 +10,7 @@ const timeOutBed = document.getElementsByClassName("sel-out-bed");
 const timeGetOutBed = document.getElementsByClassName("sel-get-out-bed");    
 const sleptWell = document.getElementsByClassName("sel-slept-well");
 const feelNextDay = document.getElementsByClassName("sel-felt-nxt-day");
+const diaryDateElem = document.querySelector(".diary-date");
 
 const splitTime = (time) => {
     const tempSplit = time.split(":");
@@ -79,7 +80,7 @@ const timeAsleep = (hoursInBed, timeToFall, timeTogetOut, timeGaps) => {
 
 
 const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, 
-                  feelNextDay, hoursInBed, totalTimeAsleep, sef) => {
+                  feelNextDay, hoursInBed, totalTimeAsleep, sef, diaryDateEntry) => {
     return {bedTime: timeToBed.value,
     timeToFallAsleep: timeToSleep.value,
     numberTimesAwake: numTimesAwake.value,
@@ -90,7 +91,8 @@ const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed,
     nextDayFeeling: feelNextDay.value,
     hoursSpentInBed: hoursInBed,
     hoursSpentAsleep: totalTimeAsleep,
-    sleepEfficiencyScore: sef
+    sleepEfficiencyScore: sef,
+    diaryDate: diaryDateEntry
     }
 }
 
@@ -112,9 +114,10 @@ saveSleepData.addEventListener("click", ()=> {
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
     console.log(`total time asleep ${totalTimeAsleep}`)
     const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
+    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "");
     
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore);
+                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter);
     console.log(feelNextDay[0]);
     console.log(data);
     postSleepData(data);
