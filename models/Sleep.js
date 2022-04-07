@@ -57,6 +57,10 @@ const SleepSchema = new mongoose.Schema({
         type:mongoose.Types.ObjectId,
         ref:'User',
         required:[true]
+    },
+    diaryDate: {
+        type:String,
+        required:[true]
     }
 }, {timestamps: true})
 
