@@ -46,6 +46,12 @@ body {
     padding-right: 1.5em;
     color: white;
     text-decoration: none;
+    height: 0;
+}
+
+.nav i {
+    height:0;
+ 
 }
 
 .main-nav {
@@ -67,13 +73,12 @@ body {
 }
 
 .nav a:hover {
-    background-color: var(--sleep-light-pink);
-    height: 2.45em;
-    padding-right: 1.5em;
+    color: var(--sleep-light-pink);
 }
 
 .fa {
     height: 10em;
+    
 }
 
 .dates-container {
