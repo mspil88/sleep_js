@@ -124,13 +124,6 @@ saveSleepData.addEventListener("click", ()=> {
 })
 
 
-
-// temp date object to test out class
-let day_array = ['Tue','Web','Thur', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur']
-let month_array = ['Mar', 'Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar',]
-let date_array = ['01','02','03','04','05','06','07','08','09','10'];
-
-
 const zipped3 = (x, y, z) => Array(Math.max(x.length, y.length, z.length)).fill().map((_,i) => [x[i], y[i], z[i]]);
 
 
@@ -177,7 +170,16 @@ const createDateContainer = (day, months, date_ints) => {
 }
 
 const dateContainer = createDateContainer(dayArray, monthArray, dateArray);
-console.log(dateContainer);
+
+
+window.onload = () => {
+    defaultDiaryDate = dateContainer[dateContainer.length-1];
+    console.log(dateContainer);
+    const diaryFor = document.querySelector(".diary-date");
+    const dateText = `${defaultDiaryDate.days} ${defaultDiaryDate.dates} ${defaultDiaryDate.months}`;
+    diaryFor.innerHTML = `Diary for: ${dateText}`;
+
+}
 
 
 class DateSlider {
@@ -205,7 +207,7 @@ class DateSlider {
         console.log("prev button");
 
         try {
-            let [dates, days, months] = this.getCurrentDateBounds("forwards");
+            let [dates, days, months] = this.getCurrentDateBounds("backwards");
             this.setDates(dates, days, months);
         } catch(error) {
             console.log("error")
@@ -265,7 +267,7 @@ class DateSlider {
     this.elem.next.addEventListener("click", ()=> {
         console.log("next button");
         try {
-            let [dates, days, months] = this.getCurrentDateBounds("backwards");
+            let [dates, days, months] = this.getCurrentDateBounds("forwards");
             this.setDates(dates, days, months);
         } catch (error) {
             console.log("index out of bounds")
@@ -307,12 +309,14 @@ class DateSlider {
         const minIdx = dates_container.indexOf(_min);
         const maxIdx = dates_container.indexOf(_max);
 
+    
+
 
         //this does need a clean up but works for now
-        if((direction === "forwards") && (minIdx > 0)) {
+        if((direction === "backwards") && (minIdx > 0)) {
             return [dates_container.slice(minIdx-1, maxIdx), days_container.slice(minIdx-1, maxIdx), 
                 month_container.slice(minIdx-1, maxIdx)];            
-        } else if((direction === "backwards") && (maxIdx+2 <= 14)) {
+        } else if((direction === "forwards") && (maxIdx+2 <= 14)) {
             return [dates_container.slice(minIdx+1, maxIdx+2), days_container.slice(minIdx+1, maxIdx+2), 
                 month_container.slice(minIdx+1, maxIdx+2)];
         }
