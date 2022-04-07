@@ -220,6 +220,12 @@ body {
     font-size: 1em;
 }
 
+.diary-date {
+    margin-left: 1em;
+    margin-bottom: 0;
+    font-size: 18px;
+}
+
 .mood-dialogue {
     padding-top: 1em;
     margin: 1em;

@@ -10,6 +10,7 @@ const timeOutBed = document.getElementsByClassName("sel-out-bed");
 const timeGetOutBed = document.getElementsByClassName("sel-get-out-bed");    
 const sleptWell = document.getElementsByClassName("sel-slept-well");
 const feelNextDay = document.getElementsByClassName("sel-felt-nxt-day");
+const diaryDateElem = document.querySelector(".diary-date");
 
 const splitTime = (time) => {
     const tempSplit = time.split(":");
@@ -79,7 +80,7 @@ const timeAsleep = (hoursInBed, timeToFall, timeTogetOut, timeGaps) => {
 
 
 const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, 
-                  feelNextDay, hoursInBed, totalTimeAsleep, sef) => {
+                  feelNextDay, hoursInBed, totalTimeAsleep, sef, diaryDateEntry) => {
     return {bedTime: timeToBed.value,
     timeToFallAsleep: timeToSleep.value,
     numberTimesAwake: numTimesAwake.value,
@@ -90,7 +91,8 @@ const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed,
     nextDayFeeling: feelNextDay.value,
     hoursSpentInBed: hoursInBed,
     hoursSpentAsleep: totalTimeAsleep,
-    sleepEfficiencyScore: sef
+    sleepEfficiencyScore: sef,
+    diaryDate: diaryDateEntry
     }
 }
 
@@ -103,6 +105,31 @@ const postSleepData = async(sleepObj) => {
     await axios.post("api/v1/sleep", sleepObj, config);
 }
 
+const getSleepData = async() => {
+    const config = {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}};
+    let sleepData = await axios.get("api/v1/sleep", config);
+    return sleepData.data;
+}
+
+const patchSleepData = async(sleepId, sleepObj) => {
+    const config = {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}};
+    await axios.patch(`api/v1/sleep/${sleepId}`, sleepObj, config)
+}
+
+const checkIfAlreadyCompleted = (choosenDiaryDate) => {
+    const sleepData = JSON.parse(localStorage.getItem("sleepLast14d"));
+    let _id = []
+    let found = false;
+    for(let i of sleepData) {
+        if(i.diaryDate === choosenDiaryDate) {
+            console.log("entry already exists")
+            _id.push(i._id);
+            found = true;
+        }
+    }
+    return [found, _id[0]];
+}
+
 
 saveSleepData.addEventListener("click", ()=> {
     console.log("clicked save button");
@@ -110,22 +137,21 @@ saveSleepData.addEventListener("click", ()=> {
     const s2 = splitConvert(timeOutBed[0].value);
     const hoursInBed = timeInBed(s2, s1);
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
-    console.log(`total time asleep ${totalTimeAsleep}`)
     const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
+    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "");
     
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore);
-    console.log(feelNextDay[0]);
-    console.log(data);
-    postSleepData(data);
+                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter);
+    
+    let [completed, _id] = checkIfAlreadyCompleted(diaryDateToEnter);
+    console.log(completed, _id)
+
+    if(completed) {
+        patchSleepData(_id, data);
+    } else {
+        postSleepData(data);
+    }
 })
-
-
-
-// temp date object to test out class
-let day_array = ['Tue','Web','Thur', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thur']
-let month_array = ['Mar', 'Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar','Mar',]
-let date_array = ['01','02','03','04','05','06','07','08','09','10'];
 
 
 const zipped3 = (x, y, z) => Array(Math.max(x.length, y.length, z.length)).fill().map((_,i) => [x[i], y[i], z[i]]);
@@ -174,7 +200,18 @@ const createDateContainer = (day, months, date_ints) => {
 }
 
 const dateContainer = createDateContainer(dayArray, monthArray, dateArray);
-console.log(dateContainer);
+
+
+window.onload = async () => {
+    defaultDiaryDate = dateContainer[dateContainer.length-1];
+    console.log(dateContainer);
+    const diaryFor = document.querySelector(".diary-date");
+    const dateText = `${defaultDiaryDate.days} ${defaultDiaryDate.dates} ${defaultDiaryDate.months}`;
+    diaryFor.innerHTML = `Diary for: ${dateText}`;
+    let sleepData = await getSleepData();
+    localStorage.setItem("sleepLast14d", JSON.stringify(sleepData.sleep.slice(sleepData.sleep.length-14, sleepData.sleep.length)));
+
+}
 
 
 class DateSlider {
@@ -193,6 +230,7 @@ class DateSlider {
             dt5: root.querySelector(".dt-5"),
             dt6: root.querySelector(".dt-6"),
             dt7: root.querySelector(".dt-7"),
+            diaryDate: document.querySelector(".diary-date")
         };
         this.elems = [this.elem.dt1, this.elem.dt2, this.elem.dt3, this.elem.dt4, this.elem.dt5, this.elem.dt6, this.elem.dt7];
         this.setInitialDates();
@@ -201,18 +239,67 @@ class DateSlider {
         console.log("prev button");
 
         try {
-            let [dates, days, months] = this.getCurrentDateBounds("forwards");
+            let [dates, days, months] = this.getCurrentDateBounds("backwards");
             this.setDates(dates, days, months);
         } catch(error) {
             console.log("error")
             //make button purple and/ or disable
         }
     })
+    //PLACEHOLDER TO CHECK IT WORKS
+    this.elem.dt1.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt1.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt1.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt2.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt2.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt2.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt3.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt3.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt3.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt4.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt4.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt4.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt5.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt5.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt5.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt6.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt6.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt6.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
+
+    this.elem.dt7.addEventListener("click", ()=> {
+        const dayMonth = this.elem.dt7.children[0].textContent.split(" ");
+        const dateVal = this.elem.dt7.children[1].textContent;
+        const dateText = `${dayMonth[0]} ${dateVal} ${dayMonth[1]}`;
+        this.elem.diaryDate.innerHTML = `Diary for: ${dateText}`;
+    })
 
     this.elem.next.addEventListener("click", ()=> {
         console.log("next button");
         try {
-            let [dates, days, months] = this.getCurrentDateBounds("backwards");
+            let [dates, days, months] = this.getCurrentDateBounds("forwards");
             this.setDates(dates, days, months);
         } catch (error) {
             console.log("index out of bounds")
@@ -228,6 +315,13 @@ class DateSlider {
             i.querySelector(".dt-text").innerHTML = `${j.days} ${j.months}`;
         };
         
+    }
+
+    setDateForDiary(objElem) {
+        const dayMonth = objElem.children[0].textContent.split(" ");
+        const dateVal = objElem.dateElem.children[1].textContent;
+        const dateText = `${dateVal} ${dayMonth[0]} ${dayMonth[1]}`;
+        return dateText
     }
 
     getCurrentDateBounds(direction) {
@@ -247,12 +341,14 @@ class DateSlider {
         const minIdx = dates_container.indexOf(_min);
         const maxIdx = dates_container.indexOf(_max);
 
+    
+
 
         //this does need a clean up but works for now
-        if((direction === "forwards") && (minIdx > 0)) {
+        if((direction === "backwards") && (minIdx > 0)) {
             return [dates_container.slice(minIdx-1, maxIdx), days_container.slice(minIdx-1, maxIdx), 
                 month_container.slice(minIdx-1, maxIdx)];            
-        } else if((direction === "backwards") && (maxIdx+2 <= 14)) {
+        } else if((direction === "forwards") && (maxIdx+2 <= 14)) {
             return [dates_container.slice(minIdx+1, maxIdx+2), days_container.slice(minIdx+1, maxIdx+2), 
                 month_container.slice(minIdx+1, maxIdx+2)];
         }
