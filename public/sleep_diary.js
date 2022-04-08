@@ -144,7 +144,6 @@ saveSleepData.addEventListener("click", ()=> {
                     sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter);
     
     let [completed, _id] = checkIfAlreadyCompleted(diaryDateToEnter);
-    console.log(completed, _id)
 
     if(completed) {
         patchSleepData(_id, data);

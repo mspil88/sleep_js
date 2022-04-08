@@ -85,11 +85,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 1.5em 20em 1em 20em;
+    /* margin: 1.5em 15% 1.5em 15%; */
+    margin: auto;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
     height: 50px;
     background-color: pink;
     border-radius: 0.3em;
     min-width: 45em;
+    width: 60em;
+
     /* border: 5px solid white; */
     
 }
@@ -97,12 +102,13 @@ body {
 .dt {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     cursor: pointer;
     background-color: rgb(219,112,147, 0.0);
     transition: all linear 0.3s;
     border-right: 1px solid white;
     border-left: 1px solid white;
+    /* width: 185px; */
     /* margin: 0 1em; */
  } 
 
@@ -182,19 +188,21 @@ body {
     flex-direction: column;
     justify-content: center;
     /* grid-template-columns: 1fr 1fr; */
-    margin: 1.5em 20em 1em 20em;
+    margin: auto;
     /* height: 800px; */
     background-color: pink;
     border-radius: 0.3em;
     /* margin-left: 50em; */
     min-width: 45em;
+    width: 60em;
+    /* max-width:80em; */
 }
 
 
 .diary-question {
     color: white;
     display: inline-block;
-    width: 77%;
+    width: 76%;
     /* padding-right: 50rem; */
 }
 
@@ -302,6 +310,7 @@ body {
 .btn-prev {
     border-top-left-radius: 0.3em;
     border-bottom-left-radius: 0.3em;
+
 }
 
 .btn-next {
