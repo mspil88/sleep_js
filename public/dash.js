@@ -175,7 +175,7 @@ prevWeekBtn.addEventListener("click", ()=> {
 
 nextWeekBtn.addEventListener("click", ()=> {
     console.log("next");
-    if(currentWeekIdx <= maximumWeekIdx) {
+    if(currentWeekIdx < maximumWeekIdx) {
         const newWeekIndex = currentWeekIdx + 1;
         currentWeekIdx = newWeekIndex;
         const filt = diaryTableFilter(mySleepData, newWeekIndex)
