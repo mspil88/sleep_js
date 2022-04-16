@@ -42,15 +42,15 @@ const SleepSchema = new mongoose.Schema({
         maxLength: 30
     },
     hoursSpentInBed: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     hoursSpentAsleep: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     sleepEfficiencyScore: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     createdBy: {
