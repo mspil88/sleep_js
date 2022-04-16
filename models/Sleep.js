@@ -61,7 +61,12 @@ const SleepSchema = new mongoose.Schema({
     diaryDate: {
         type:String,
         required:[true]
-    }
+    },
+    weekIndex: {
+        type:Number,
+        required:[true]
+    },
+
 }, {timestamps: true})
 
 module.exports = mongoose.model("Sleep", SleepSchema);
