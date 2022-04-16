@@ -101,6 +101,8 @@ const plotSefData = async (result) => {
 
 }
 
+
+
 const renderDiaryTable = (res, tableContainer) => {
     
     let rowIdx = 0;
@@ -135,25 +137,74 @@ const plotFeelings = () => {
 
 const diaryTbl = document.querySelector(".diary-table-container");
 
-let mySleepData = [
-    {diaryDate: "Mon 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Tue 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Wed 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Thur 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Fri 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Sat 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-    {diaryDate: "Sun 11 Apr", bedTime: "12:00am", timeGotOutBed: "6:00am", hoursSpentAsleep: 4, sleepEfficiencyScore: 55, qualityOfSleep: "no"},
-];
+let mySleepData = [];
+
+
+const maxWeek = (sleepData) => {
+    let _max = 0;
+    sleepData.forEach((item)=> {
+        if(item.weekIndex > _max) {
+            _max = item.weekIndex
+        }
+    })
+    return _max;
+}
+
+const diaryTableFilter = (sleepData, weekIndexFilt) => {
+    return sleepData.filter((item) => item.weekIndex === weekIndexFilt);
+}
+
+let currentWeekIdx = 0;
+let maximumWeekIdx = 0;
+
+const prevWeekBtn = document.querySelector(".fa-angle-double-left");
+const nextWeekBtn = document.querySelector(".fa-angle-double-right");
+
+prevWeekBtn.addEventListener("click", ()=> {
+    
+    if(currentWeekIdx > 0) {
+        const newWeekIndex = currentWeekIdx - 1;
+        currentWeekIdx = newWeekIndex;
+        const filt = diaryTableFilter(mySleepData, newWeekIndex)
+        filt.sort(sortByDate);
+        renderDiaryTable(filt, diaryTbl);
+        
+    }
+})
+
+
+nextWeekBtn.addEventListener("click", ()=> {
+    console.log("next");
+    if(currentWeekIdx <= maximumWeekIdx) {
+        const newWeekIndex = currentWeekIdx + 1;
+        currentWeekIdx = newWeekIndex;
+        const filt = diaryTableFilter(mySleepData, newWeekIndex)
+        filt.sort(sortByDate);
+        renderDiaryTable(filt, diaryTbl);
+        
+    }
+})
+
 
 const plotSleepData = async() => {
     
     let sleepData = await getSleepData().then((res)=> {
         res.sleep.forEach(itm=> mySleepData.push(itm));
+        console.log(res.sleep);
+        const maxWeekIdx = maxWeek(res.sleep);
+        currentWeekIdx = maxWeekIdx;
+        maximumWeekIdx = maxWeekIdx;
+        console.log(maxWeekIdx);
+        const filt = diaryTableFilter(mySleepData, maxWeekIdx)
+        filt.sort(sortByDate);
         plotSefData(res);
-        renderDiaryTable(res.sleep.slice(res.sleep.length-7, res.sleep.length), diaryTbl);
+        renderDiaryTable(filt, diaryTbl);
+        //renderDiaryTable(res.sleep.slice(res.sleep.length-7, res.sleep.length), diaryTbl);
+        
         console.log(res);
-    }).catch((error)=> {
-        console.log("error");
+    })
+    .catch((error)=> {
+        console.log(error);
     })
 
     
