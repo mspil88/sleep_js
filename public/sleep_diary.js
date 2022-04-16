@@ -78,6 +78,16 @@ const timeAsleep = (hoursInBed, timeToFall, timeTogetOut, timeGaps) => {
     
 }
 
+const mapEmoji = (response) => {
+    const emojiMap = {
+        yes: "😊",
+        no: "🙁",
+        somewhat: "😑"
+    }
+    return emojiMap[response];
+}
+
+
 
 const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, 
                   feelNextDay, hoursInBed, totalTimeAsleep, sef, diaryDateEntry) => {
@@ -87,7 +97,7 @@ const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed,
     amountTimeAwake: timeAwake.value,
     timeGotOutBed: timeOutBed.value,
     timeToGetOutBed: timeGetOutBed.value,
-    qualityOfSleep: sleptWell.value,
+    qualityOfSleep: mapEmoji(sleptWell.value),
     nextDayFeeling: feelNextDay.value,
     hoursSpentInBed: hoursInBed,
     hoursSpentAsleep: totalTimeAsleep,
