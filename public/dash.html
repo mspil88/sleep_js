@@ -4,7 +4,8 @@
         <title>Home Page</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
         <link rel="stylesheet" href="styles.css">
-        <script src="https://cdn.plot.ly/plotly-2.3.1.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-2.11.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <header class="main-header">
@@ -34,7 +35,7 @@
                 <h3 class="dash-change hours-change">&#x25BC 5 hours</h3>
             </div>
             <div class="dash-elem sef-hours-trend">
-                <h3 class="dash-title trend-title">Sleep Efficiency trend over time</h3>
+                <!-- <h3 class="dash-title trend-title">Sleep Efficiency trend over time</h3> -->
             </div>
             <div class="dash-elem anxiety">
                 <h3 class="dash-title anxiety-title">Anxiety Score</h3>
@@ -47,6 +48,14 @@
                 <h3 class="dash-change depression-change">&#x25BC 3 points</h3>
             </div>
             <div class="dash-elem diary-tbl">
+                <div class="dash-title-container">
+                <h3 class="dash-title diary-table-title">My Diary</h3>
+                <div class="diary-nav-btns">
+                    <span class="diary-tbl-nav"><i class="fas fa-angle-double-left"></i></span>
+                    <span class="diary-tbl-nav"><i class="fas fa-angle-double-right"></i></span>
+                </div>
+                </div>
+                <div class="diary-table-container"></div>
             </div>
             <div class="dash-elem feelings">
             </div>
