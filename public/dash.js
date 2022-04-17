@@ -197,9 +197,83 @@ nextWeekBtn.addEventListener("click", ()=> {
     }
 })
 
+const aggregateSleepEfficiency = (sleepData, weekIdx) => {
+    let prevHoursSlept = 0;
+    let prevHoursInBed = 0;
+    let currHoursSlept = 0;
+    let currHoursInBed = 0;
+
+    for(let i of sleepData) {
+        if(i.weekIndex === weekIdx) {
+            currHoursSlept += i.hoursSpentAsleep;
+            currHoursInBed += i.hoursSpentInBed;
+        }
+        else if(i.weekIndex === weekIdx-1) {
+            prevHoursSlept += i.hoursSpentAsleep;
+            prevHoursInBed += i.hoursSpentInBed;
+        }
+    }
+
+    let currSef = Math.ceil((currHoursSlept/currHoursInBed)*100)
+    let prevSef = Math.ceil((prevHoursSlept/prevHoursInBed)*100)
+
+    let changeOnPrevious = currSef - prevSef;
+
+    return [currSef, changeOnPrevious];
+}
+
+const aggregateHoursSlept = (sleepData, weekIdx) => {
+    let prevHoursSlept = 0;
+    let currHoursSlept = 0;
+    let prevDays = 0;
+    let currDays = 0;
+
+    for(let i of sleepData) {
+        if(i.weekIndex === weekIdx) {
+            currDays ++;
+            currHoursSlept += i.hoursSpentAsleep
+        }
+        else if(i.weekIndex === weekIdx-1) {
+            prevDays ++;
+            prevHoursSlept += i.hoursSpentAsleep
+        }
+    }
+
+    let currAvgHours = Math.ceil(currHoursSlept/currDays);
+    let prevAvgHours = Math.ceil(prevHoursSlept/prevDays);
+    console.log("hours sleep fn")
+    console.log(prevHoursSlept, prevDays);
+    let changeOnPrevious = currAvgHours - prevAvgHours;
+
+    return [currAvgHours, changeOnPrevious];
+}
+
+const sefScore = document.querySelector(".sef-score");
+const sefChange = document.querySelector(".sef-change");
+const hoursScore = document.querySelector(".hours-score");
+const hoursChange = document.querySelector(".hours-change");
+
+const cardChange = (score, card) => {
+
+    let returnValue = score > 0 ? `▲ ${score}`
+                        : score === 0 ?`${score}`
+                        : score `▼ ${score}`
+
+    if(card === "sef") {
+        returnValue += "pp"
+    } else if(card === "hours") {
+        returnValue += " hours"
+    } else {
+        returnValue += " points"
+    }
+
+    return returnValue;
+}
+
 //refactor to not use then
 const plotSleepData = async() => {
     
+
     let sleepData = await getSleepData().then((res)=> {
         res.sleep.forEach(itm=> mySleepData.push(itm));
         console.log(res.sleep);
@@ -210,7 +284,14 @@ const plotSleepData = async() => {
         currentWeekIdx = maxWeekIdx;
         maximumWeekIdx = maxWeekIdx;
         
-        console.log(maxWeekIdx);
+        [currentSef, sefChangeOnPrev] = aggregateSleepEfficiency(res.sleep, maxWeekIdx);
+        [currentHoursSleep, hoursSleptChangeOnPrev] = aggregateHoursSlept(res.sleep, maxWeekIdx);
+        sefScore.textContent = `${currentSef}%`;
+        sefChange.textContent = cardChange(sefChangeOnPrev, "sef");
+        hoursScore.textContent = `${currentHoursSleep}`
+        hoursChange.textContent = cardChange(hoursSleptChangeOnPrev, "hours");
+        
+       
         const filt = diaryTableFilter(mySleepData, maxWeekIdx)
         filt.sort(sortByDate);
         plotSefData(res);
