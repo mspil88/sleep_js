@@ -253,6 +253,12 @@ const sefChange = document.querySelector(".sef-change");
 const hoursScore = document.querySelector(".hours-score");
 const hoursChange = document.querySelector(".hours-change");
 
+const getMoodData = async() => {
+    const config  = {headers: {Authorization:  `Bearer ${localStorage.getItem("token")}`}};
+    const data = await axios.get("api/v1/mood", config);
+    return data.data;
+}
+
 const cardChange = (score, card) => {
 
     let returnValue = score > 0 ? `▲ ${score}`
@@ -316,5 +322,34 @@ const plotSleepData = async() => {
 
 }
 
-plotSleepData();
+const anxietyScore = document.querySelector(".anxiety-score");
+const anxietyChange = document.querySelector(".anxiety-change");
+const depressionScore = document.querySelector(".depression-score");
+const depressionChange = document.querySelector(".depression-change");
 
+//redo this so it can be generically applied above
+const sortDate = (a, b) => {
+    let dateA = new Date(a.createdAt);
+    let dateB = new Date(b.createdAt);
+    return dateA > dateB ? 1: -1;
+}
+
+const scoreDifference = (s1, s2) => {
+    return s1 - s2
+}
+
+const displayMoodData = async () => {
+    let moodData = await getMoodData().then((res)=> {
+        console.log("MOOD DATA")
+        let [prevMood, currentMood] = res.mood.slice(res.mood.length-2, res.mood.length);
+        const depressionDifference = scoreDifference(currentMood.depression, prevMood.depression);
+        const anxietyDifference = scoreDifference(currentMood.anxiety, prevMood.anxiety);
+        depressionScore.textContent = currentMood.depression;
+        anxietyScore.textContent = currentMood.anxiety;
+        depressionChange.textContent = cardChange(depressionDifference, "mood");
+        anxietyChange.textContent = cardChange(anxietyDifference, "mood");
+    })
+}
+
+plotSleepData();
+displayMoodData();
