@@ -275,6 +275,21 @@ body {
     /* letter-spacing: 0.1em; */
 }
 
+.feeling-multi {
+    height: 5em;
+}
+
+.sel-felt-nxt-day {
+    height: 4em;
+    margin-bottom: -20px;
+   
+}
+
+.sel-felt-nxt-day option {
+    color: white;
+}
+
+
 .diary-button {
     border-radius: 0.3em;
     height: 50px;
