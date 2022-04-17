@@ -150,20 +150,32 @@ const maxWeek = (sleepData) => {
     return _max;
 }
 
+const minWeek = (sleepData) => {
+    let _min = 0;
+    sleepData.forEach((item)=> {
+        if(item.weekIndex < _min) {
+            _min = item.weekIndex;
+        }
+    })
+    return _min;
+}
+
 const diaryTableFilter = (sleepData, weekIndexFilt) => {
     return sleepData.filter((item) => item.weekIndex === weekIndexFilt);
 }
 
 let currentWeekIdx = 0;
 let maximumWeekIdx = 0;
+let minimumWeekIdx = 0;
 
 const prevWeekBtn = document.querySelector(".fa-angle-double-left");
 const nextWeekBtn = document.querySelector(".fa-angle-double-right");
 
 prevWeekBtn.addEventListener("click", ()=> {
     
-    if(currentWeekIdx > 0) {
+    if(currentWeekIdx >= minimumWeekIdx) {
         const newWeekIndex = currentWeekIdx - 1;
+        console.log(newWeekIndex);
         currentWeekIdx = newWeekIndex;
         const filt = diaryTableFilter(mySleepData, newWeekIndex)
         filt.sort(sortByDate);
@@ -185,15 +197,19 @@ nextWeekBtn.addEventListener("click", ()=> {
     }
 })
 
-
+//refactor to not use then
 const plotSleepData = async() => {
     
     let sleepData = await getSleepData().then((res)=> {
         res.sleep.forEach(itm=> mySleepData.push(itm));
         console.log(res.sleep);
         const maxWeekIdx = maxWeek(res.sleep);
+        minimumWeekIdx = maxWeekIdx;
+        const minWeekIdx = minWeek(res.sleep);
+        console.log(`min week ${minWeekIdx}`)
         currentWeekIdx = maxWeekIdx;
         maximumWeekIdx = maxWeekIdx;
+        
         console.log(maxWeekIdx);
         const filt = diaryTableFilter(mySleepData, maxWeekIdx)
         filt.sort(sortByDate);
