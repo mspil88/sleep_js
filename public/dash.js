@@ -73,15 +73,15 @@ const getAxes = (data) => {
     let xAxis = [];
     let yAxis = [];
     for(let i of data){
-        xAxis.push(i.diaryDate);
+        xAxis.push(i.diaryDate.slice(0, 10));
         yAxis.push(Number(i.sleepEfficiencyScore));
     }
     return [xAxis, yAxis]
 }
 
 const sortByDate = (a, b) => {
-    let dateA = new Date(a.diaryDate + "2022");
-    let dateB = new Date(b.diaryDate + "2022");
+    let dateA = new Date(a.diaryDate);
+    let dateB = new Date(b.diaryDate);
     return dateA > dateB ? 1: -1;
 }
 
@@ -260,10 +260,10 @@ const getMoodData = async() => {
 }
 
 const cardChange = (score, card) => {
-
+    
     let returnValue = score > 0 ? `▲ ${score}`
-                        : score === 0 ?`${score}`
-                        : score `▼ ${score}`
+                        : score === 0 ?`  ${score}`
+                        : `▼ ${score}`
 
     if(card === "sef") {
         returnValue += "pp"
@@ -290,9 +290,11 @@ const plotSleepData = async() => {
         currentWeekIdx = maxWeekIdx;
         maximumWeekIdx = maxWeekIdx;
         
-        [currentSef, sefChangeOnPrev] = aggregateSleepEfficiency(res.sleep, maxWeekIdx);
-        [currentHoursSleep, hoursSleptChangeOnPrev] = aggregateHoursSlept(res.sleep, maxWeekIdx);
+        let [currentSef, sefChangeOnPrev] = aggregateSleepEfficiency(res.sleep, maxWeekIdx);
+        let [currentHoursSleep, hoursSleptChangeOnPrev] = aggregateHoursSlept(res.sleep, maxWeekIdx);
         sefScore.textContent = `${currentSef}%`;
+        console.log("SEF CHANGE")   
+        console.log(sefChangeOnPrev);
         sefChange.textContent = cardChange(sefChangeOnPrev, "sef");
         hoursScore.textContent = `${currentHoursSleep}`
         hoursChange.textContent = cardChange(hoursSleptChangeOnPrev, "hours");
