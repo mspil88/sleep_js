@@ -154,11 +154,12 @@ saveSleepData.addEventListener("click", ()=> {
     const hoursInBed = timeInBed(s2, s1);
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
     const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
-    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "");
-    const weekIndex = `${diaryDateToEnter} ${new Date().getFullYear()}`
+    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "") + ` ${new Date().getFullYear()}`;
+    console.log("FEEL NEXT DAY")
+    console.log(feelNextDay[0].value)
 
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[weekIndex]);
+                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[diaryDateToEnter]);
     
     let [completed, _id] = checkIfAlreadyCompleted(diaryDateToEnter);
 
