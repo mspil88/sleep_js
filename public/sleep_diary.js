@@ -157,6 +157,8 @@ saveSleepData.addEventListener("click", ()=> {
     const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "") + ` ${new Date().getFullYear()}`;
     console.log("FEEL NEXT DAY")
     console.log(feelNextDay[0].value)
+    console.log(diaryDateToEnter);
+    console.log(dayWeekHash[diaryDateToEnter]);
 
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
                     sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[diaryDateToEnter]);
@@ -399,8 +401,9 @@ const dayWeekIdxHash = () => {
     const endDate = new Date().toString();
     const dayDifference = Math.floor((new Date(endDate) - new Date(startDate))/DAYDIFF_CONST);
     
-    const daysToIterate = Array(dayDifference).fill(1);
-    const numWeeks = Math.ceil(dayDifference/7);
+    const daysToIterate = Array(dayDifference+1).fill(1);
+    const numWeeks = Math.ceil(dayDifference/7)+1;
+    console.log(numWeeks);
 
     let dates = [];
     let weekIdx = [];
@@ -418,6 +421,9 @@ const dayWeekIdxHash = () => {
     }
 
     let zipped = zippedObj(dates, weekIdx);
+
+    console.log(dates);
+    console.log(weekIdx);
 
     return Object.assign({}, ...zipped);
 }
