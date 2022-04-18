@@ -42,15 +42,15 @@ const SleepSchema = new mongoose.Schema({
         maxLength: 30
     },
     hoursSpentInBed: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     hoursSpentAsleep: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     sleepEfficiencyScore: {
-        type:mongoose.Types.Decimal128,
+        type:Number,
         required:[true],
     },
     createdBy: {
@@ -61,7 +61,12 @@ const SleepSchema = new mongoose.Schema({
     diaryDate: {
         type:String,
         required:[true]
-    }
+    },
+    weekIndex: {
+        type:Number,
+        required:[true]
+    },
+
 }, {timestamps: true})
 
 module.exports = mongoose.model("Sleep", SleepSchema);

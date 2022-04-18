@@ -78,21 +78,32 @@ const timeAsleep = (hoursInBed, timeToFall, timeTogetOut, timeGaps) => {
     
 }
 
+const mapEmoji = (response) => {
+    const emojiMap = {
+        yes: "😊",
+        no: "🙁",
+        somewhat: "😑"
+    }
+    return emojiMap[response];
+}
+
+
 
 const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed, timeGetOutBed, sleptWell, 
-                  feelNextDay, hoursInBed, totalTimeAsleep, sef, diaryDateEntry) => {
+                  feelNextDay, hoursInBed, totalTimeAsleep, sef, diaryDateEntry, weekIdx) => {
     return {bedTime: timeToBed.value,
     timeToFallAsleep: timeToSleep.value,
     numberTimesAwake: numTimesAwake.value,
     amountTimeAwake: timeAwake.value,
     timeGotOutBed: timeOutBed.value,
     timeToGetOutBed: timeGetOutBed.value,
-    qualityOfSleep: sleptWell.value,
+    qualityOfSleep: mapEmoji(sleptWell.value),
     nextDayFeeling: feelNextDay.value,
     hoursSpentInBed: hoursInBed,
     hoursSpentAsleep: totalTimeAsleep,
     sleepEfficiencyScore: sef,
-    diaryDate: diaryDateEntry
+    diaryDate: diaryDateEntry,
+    weekIndex: weekIdx
     }
 }
 
@@ -102,7 +113,12 @@ const sleepEfficiency = (timeSpentAsleep, timeSpentInBed) => {
 
 const postSleepData = async(sleepObj) => {
     const config = {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}};
-    await axios.post("api/v1/sleep", sleepObj, config);
+    try {
+        let result = await axios.post("api/v1/sleep", sleepObj, config);
+    }
+    catch (error) {
+        console.error(error.response.data);
+    }
 }
 
 const getSleepData = async() => {
@@ -117,7 +133,7 @@ const patchSleepData = async(sleepId, sleepObj) => {
 }
 
 const checkIfAlreadyCompleted = (choosenDiaryDate) => {
-    const sleepData = JSON.parse(localStorage.getItem("sleepLast14d"));
+    const sleepData = JSON.parse(localStorage.getItem("sleepData"));
     let _id = []
     let found = false;
     for(let i of sleepData) {
@@ -138,16 +154,22 @@ saveSleepData.addEventListener("click", ()=> {
     const hoursInBed = timeInBed(s2, s1);
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
     const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
-    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "");
-    
+    const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "") + ` ${new Date().getFullYear()}`;
+    console.log("FEEL NEXT DAY")
+    console.log(feelNextDay[0].value)
+    console.log(diaryDateToEnter);
+    console.log(dayWeekHash[diaryDateToEnter]);
+
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter);
+                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[diaryDateToEnter]);
     
     let [completed, _id] = checkIfAlreadyCompleted(diaryDateToEnter);
 
     if(completed) {
+        console.log("patching")
         patchSleepData(_id, data);
     } else {
+        console.log("posting")
         postSleepData(data);
     }
 })
@@ -208,7 +230,7 @@ window.onload = async () => {
     const dateText = `${defaultDiaryDate.days} ${defaultDiaryDate.dates} ${defaultDiaryDate.months}`;
     diaryFor.innerHTML = `Diary for: ${dateText}`;
     let sleepData = await getSleepData();
-    localStorage.setItem("sleepLast14d", JSON.stringify(sleepData.sleep.slice(sleepData.sleep.length-14, sleepData.sleep.length)));
+    localStorage.setItem("sleepData", JSON.stringify(sleepData.sleep));
 
 }
 
@@ -365,5 +387,44 @@ class DateSlider {
 
     }
 };
+
+const dayWeekIdxHash = () => {
+
+    const dateHash = (x, y) => {
+        return {[x]: y}
+    }
+    
+    const zippedObj = (x, y) => Array(Math.min(x.length, y.length)).fill().map((_,i) => dateHash(x[i], y[i]));
+    
+    const DAYDIFF_CONST = 24*3600*1000;
+    const startDate = new Date("Mon 7 Mar 2022")
+    const endDate = new Date().toString();
+    const dayDifference = Math.floor((new Date(endDate) - new Date(startDate))/DAYDIFF_CONST);
+    
+    const daysToIterate = Array(dayDifference+1).fill(1);
+    const numWeeks = Math.ceil(dayDifference/7)+1;
+    
+    let dates = [];
+    let weekIdx = [];
+    
+    const initialDate = startDate.toString().slice(0, 15).split(" ")
+    dates.push(`${initialDate[0]} ${initialDate[2]} ${initialDate[1]} ${initialDate[3]}`);
+
+    for(let i of daysToIterate) {
+        const dt = new Date(startDate.setDate(startDate.getDate()+i)).toString().slice(0, 15).split(" ")
+        dates.push(`${dt[0]} ${dt[2]} ${dt[1]} ${dt[3]}`);
+    }
+
+    for(let i=0; i < numWeeks; i++) {
+        weekIdx.push(...Array(7).fill(i));
+    }
+
+    let zipped = zippedObj(dates, weekIdx);
+
+
+    return Object.assign({}, ...zipped);
+}
+
+const dayWeekHash = dayWeekIdxHash();
 
 let dateSlider = new DateSlider(datesContainer, dateContainer);
