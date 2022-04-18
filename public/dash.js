@@ -173,7 +173,7 @@ const nextWeekBtn = document.querySelector(".fa-angle-double-right");
 
 prevWeekBtn.addEventListener("click", ()=> {
     
-    if(currentWeekIdx >= minimumWeekIdx) {
+    if(currentWeekIdx >= minimumWeekIdx-1) {
         const newWeekIndex = currentWeekIdx - 1;
         console.log(newWeekIndex);
         currentWeekIdx = newWeekIndex;

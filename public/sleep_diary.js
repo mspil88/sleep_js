@@ -403,8 +403,7 @@ const dayWeekIdxHash = () => {
     
     const daysToIterate = Array(dayDifference+1).fill(1);
     const numWeeks = Math.ceil(dayDifference/7)+1;
-    console.log(numWeeks);
-
+    
     let dates = [];
     let weekIdx = [];
     
@@ -422,14 +421,10 @@ const dayWeekIdxHash = () => {
 
     let zipped = zippedObj(dates, weekIdx);
 
-    console.log(dates);
-    console.log(weekIdx);
 
     return Object.assign({}, ...zipped);
 }
 
 const dayWeekHash = dayWeekIdxHash();
-
-console.log(dayWeekHash);
 
 let dateSlider = new DateSlider(datesContainer, dateContainer);
