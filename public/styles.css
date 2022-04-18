@@ -752,3 +752,84 @@ td:hover {
 .fa-angle-double-left:hover, .fa-angle-double-right:hover {
     color: var(--sleep-light-pink);
 }
+
+.wind-down-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    min-height: 100%;
+    /* min-width: 100%; */
+    margin: 2em 2em 2em 2em;
+    /* margin: 2em 2em 2em 2em; */
+}
+
+.wind-down-container > div {
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    margin: 10px 10px 10px 10px;
+    border: 1px solid white;
+}
+
+
+.wd-schedule {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    height: 700px;
+}
+
+.wd-tasks {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: 500px;
+}
+
+.wd-create-task {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: 180px;
+}
+
+.add-wd-task {
+    border: 2px solid white;
+    color: white;
+    /* border-style: dashed; */
+    text-align: center;
+    border-radius: 10px;
+    margin: 40px 40px 40px 40px;
+}
+
+.add-wd-task:hover {
+    background-color: var(--sleep-light-pink);
+    color: black;
+    border: 2px solid black;
+}
+
+.draggable {
+    margin: 20px 20px 20px 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    height: 40px;
+    color: white;
+    cursor: move;
+    padding: 10px 20px 5px ;
+}
+
+.draggable:hover {
+    background-color: var(--sleep-light-pink);
+}
+
+.draggable.dragging {
+    opacity: .5;
+    background-color: var(--sleep-light-pink);
+}
+
+.wd-title {
+    color: white;
+    margin: 15px;
+}
