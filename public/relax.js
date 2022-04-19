@@ -1,5 +1,6 @@
 const draggables = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.wind-down-draggable')
+const deleteBtns = document.querySelectorAll('.fa-trash-alt')
 
 draggables.forEach(draggable => {
   draggable.addEventListener('dragstart', () => {
@@ -37,3 +38,9 @@ function getDragAfterElement(container, y) {
     }
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
+
+deleteBtns.forEach((btn)=> {
+    btn.addEventListener("click", ()=> {
+        console.log("delete me")
+    })
+})
