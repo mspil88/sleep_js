@@ -85,6 +85,7 @@ addTaskBtn.addEventListener("click", ()=> {
     console.log("add btn");
     console.log(taskInput.value);
     createTask(treatInput(taskInput.value));
+    taskInput.value = '';
 })
 
 // save schedule
