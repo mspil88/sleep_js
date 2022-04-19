@@ -797,11 +797,34 @@ td:hover {
 
 .add-wd-task {
     border: 2px solid white;
+    height: 50px;
     color: white;
     /* border-style: dashed; */
     text-align: center;
     border-radius: 10px;
     margin: 40px 40px 40px 40px;
+    padding-top: 10px;
+}
+
+.task-input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+    height: 20px;
+    width: 300px;
+    margin-right: 25px;
+}
+
+.add-task-btn {
+    margin-right: 25px;
+}
+
+.task-input::placeholder {
+    color: white;
+}
+.task-input:focus {
+    outline: none;
 }
 
 .add-wd-task:hover {
@@ -817,7 +840,7 @@ td:hover {
     height: 40px;
     color: white;
     cursor: move;
-    padding: 10px 20px 5px ;
+    padding: 10px 20px 5px;
 }
 
 .draggable:hover {
@@ -832,4 +855,14 @@ td:hover {
 .wd-title {
     color: white;
     margin: 15px;
+}
+
+.fa-trash-alt {
+   float: right;
+   padding: 1px;
+   cursor: pointer;
+}
+
+.fa-trash-alt:hover {
+    color: black;
 }

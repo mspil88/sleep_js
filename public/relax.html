@@ -22,22 +22,26 @@
         </header>
 
         <div class="wind-down-container">
-            <div class="wind-down-times"></div>
+            <!-- <div class="wind-down-times"></div> -->
             <div class="wind-down-draggable wd-schedule">
-                <h3 class="wd-title">My Schedule</h3>
+                <h3 class="wd-title">My Tasks</h3>
+                <p class="draggable" draggable="true">Read book <i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Meditate <i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Go for walk <i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Wind down music <i class="fas fa-trash-alt"></i></p>
             
         </div>
             <div class="wind-down-draggable wd-tasks">
-                <h3 class="wd-title">My tasks</h3>
-                <p class="draggable" draggable="true">Read book</p>
-                <p class="draggable" draggable="true">Meditate</p>
-                <p class="draggable" draggable="true">Go for walk</p>
-                <p class="draggable" draggable="true">Wind down music</p>
+                <h3 class="wd-title">My Schedule</h3>
+                
 
             </div>
             <div class="wind-down wd-create-task">
+                <h3 class="wd-title">Add Task</h3>
                 <div class="add-wd-task">
-                    <h1 class="add-wd-task-title"><i class="fas fa-plus-circle"></i> Add Task</h1>
+                    <input placeholder="Add Task" class="task-input"></input>
+                    <button class="btn add-task-btn">Add Task</button>
+                    <button class="btn save-schedule-btn">Save Schedule</button>
                 </div>
             </div>
         </div>
