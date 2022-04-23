@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <header class="main-header">
+            <nav class="nav main-nav">
+                <ul>
+                    <li><a href="index.html"><i class="fa fa-fw fa-home fa-lg"><div class = "circle"></div></i></a></li>
+                    <li><a href="mood_survey.html"><i class="fa fa-fw fa-cat fa-lg"></i></a></li>
+                    <li><a href="sleep_diary.html"><i class="fa fa-fw fa-bed fa-lg"></i></a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-calendar fa-lg"></i></a></li>
+                    <li><a href="#"><i class="fa fa-fw fa-couch fa-lg"></i></a></li>
+                    <div class="logout-elem">
+                        <li><a href="#">Log Out</a></li>
+                    </div>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="wind-down-container">
+            <!-- <div class="wind-down-times"></div> -->
+            <div class="wind-down-draggable wd-task">
+                <h3 class="wd-title">My Tasks</h3>
+                <!-- <p class="draggable" draggable="true">Read book<i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Meditate<i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Go for walk<i class="fas fa-trash-alt"></i></p>
+                <p class="draggable" draggable="true">Wind down music<i class="fas fa-trash-alt"></i></p> -->
+                
+            
+        </div>
+            <div class="wind-down-draggable wd-schedule">
+                <h3 class="wd-title">My schedule</h3>
+                
+                
+
+            </div>
+            <div class="wind-down wd-create-task">
+                <h3 class="wd-title">Add Task</h3>
+                <div class="add-wd-task">
+                    <input placeholder="Add Task" class="task-input"></input>
+                    <button class="btn add-task-btn">Add Task</button>
+                    <button class="btn save-schedule-btn">Save Schedule</button>
+                </div>
+            </div>
+        </div>
+        
+        
+
+    <script src="relax.js"></script>
+    </body>
+</html>
