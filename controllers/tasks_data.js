@@ -9,17 +9,18 @@ const getAllTasks = async(req, res) => {
 
 const postTasks = async(req, res) => {
     req.body.createdBy = req.user.userId;
-    req.body.createdOn = new Date(Data.now());
-    const task = await Tasks.create(req.body);
-    res.status(StatusCodes.OK).json({task});
+    req.body.createdOn = new Date(Date.now());
+    const tasks = await Tasks.create(req.body);
+    res.status(StatusCodes.OK).json({tasks});
 }
 
 const updateTasks = async(req, res) => {
-    const {user: {userId},
-           params: {id:taskId},
-           body: {tasks, scheduledTasks}} = req;
+    console.log("update task")
+    const {user:{userId},
+          params: {id:tasksId},
+          body: {tasks, scheduledTasks}} = req;
 
-    const task = await Tasks.findByIdAndUpdate({_id: taskId, createdBy: userId}, req.body, {new:true, runValidators:true})
+    const task = await Tasks.findByIdAndUpdate({_id: tasksId, createdBy: userId}, req.body, {new:true, runValidators: false});
     res.status(StatusCodes.OK).json({task});
 }
 
