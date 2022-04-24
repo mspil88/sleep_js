@@ -67,7 +67,7 @@ const createTask = (taskName, containerElem) => {
     taskElem.className = "draggable";
     taskElem.draggable = true;
     
-    taskElem.innerHTML = `${taskName}<i class="fas fa-trash-alt">`;
+    taskElem.innerHTML = `${taskName}<i class="fas fa-trash-alt delete-btn">`;
     console.log(taskElem);
     containerElem.appendChild(taskElem);
     draggablesArray.push(taskElem);
@@ -85,6 +85,7 @@ addTaskBtn.addEventListener("click", ()=> {
     console.log(taskInput.value);
     createTask(treatInput(taskInput.value), wdTasks);
     taskInput.value = '';
+    assignDeleteListeners();
 })
 
 //get tasks
@@ -148,7 +149,11 @@ const patchTasksData = async(taskId, taskObj) => {
 
 const renderTasks = (tasksData, containerElem) => {
   const tasksDataArray = tasksData.split(",")
+  console.log("rendering");
   for(let i of tasksDataArray) {
+    if(i==='') {
+      continue;
+    };
     createTask(i, containerElem)
   }
 }
@@ -162,4 +167,33 @@ window.onload = async() => {
   const {tasks, scheduledTasks} = tasksData.tasks[0];
   renderTasks(tasks, wdTasks);
   renderTasks(scheduledTasks, wdSchedule);
+  assignDeleteListeners();
+}
+
+
+//reassemble taskObj and then patch? must then remove the html element
+
+const assignDeleteListeners = () => {
+  let deleteBtn = document.querySelectorAll(".delete-btn");
+  deleteBtn.forEach(btn=> {
+    btn.addEventListener("click", ()=> {
+      console.log("delete")
+      const delTask = btn.parentElement.textContent;
+      const checkLocal = JSON.parse(localStorage.getItem("tasks"));
+      let {tasks, scheduledTasks} = checkLocal;
+      tasks = tasks.split(",");
+      scheduledTasks = scheduledTasks.split(",");
+      
+      if(tasks.includes(delTask)) {
+        tasks[tasks.indexOf(delTask)] = '';
+        tasks = tasks.join('').split(",")
+      } else if(scheduledTasks.includes(delTask)) {
+        scheduledTasks[scheduledTasks.indexOf(delTask)] = '';
+        scheduledTasks = scheduledTasks.join('').split(",")
+      }
+      let tasksObj = createTasksObj(tasks.join(","), scheduledTasks.join(","));
+      patchTasksData(checkLocal._id, tasksObj);
+      btn.parentElement.remove();
+    })
+  })
 }
