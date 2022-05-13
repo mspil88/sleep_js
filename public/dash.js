@@ -127,7 +127,7 @@ const renderCardData = () => {
     return
 }
 
-const plotlyConfig = {resposive: true};
+const plotlyConfig = {resposive: true, displayModeBar: false};
 
 const plotSefData = async (result) => {
     let data = result.sleep;
