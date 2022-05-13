@@ -98,7 +98,7 @@ const sleepData = (timeToBed, timeToSleep, numTimesAwake, timeAwake, timeOutBed,
     timeGotOutBed: timeOutBed.value,
     timeToGetOutBed: timeGetOutBed.value,
     qualityOfSleep: mapEmoji(sleptWell.value),
-    nextDayFeeling: feelNextDay.value,
+    nextDayFeeling: feelNextDay,
     hoursSpentInBed: hoursInBed,
     hoursSpentAsleep: totalTimeAsleep,
     sleepEfficiencyScore: sef,
@@ -147,6 +147,12 @@ const checkIfAlreadyCompleted = (choosenDiaryDate) => {
 }
 
 
+const getAllFeelings = (nextDayElem) => {
+    const feelings = Array.from(nextDayElem[0].options).filter(itm => itm.selected).map(itm => itm.value);
+
+    return feelings.join(",");
+}
+
 saveSleepData.addEventListener("click", ()=> {
     console.log("clicked save button");
     const s1 = splitConvert(timeToBed[0].value);
@@ -155,15 +161,16 @@ saveSleepData.addEventListener("click", ()=> {
     const totalTimeAsleep = timeAsleep(hoursInBed, timeToSleep[0].value, timeGetOutBed[0].value, timeAwake[0].value);
     const sleepEfficiencyScore = sleepEfficiency(totalTimeAsleep, hoursInBed);
     const diaryDateToEnter = diaryDateElem.textContent.replace("Diary for: ", "") + ` ${new Date().getFullYear()}`;
-    console.log("FEEL NEXT DAY")
-    console.log(feelNextDay[0].value)
-    console.log(diaryDateToEnter);
-    console.log(dayWeekHash[diaryDateToEnter]);
+    const nextDayfeelings = getAllFeelings(feelNextDay);
+    console.log(`next day feelings ${nextDayfeelings}`);
+    // console.log(diaryDateToEnter);
+    // console.log(dayWeekHash[diaryDateToEnter]);
 
     data = sleepData(timeToBed[0], timeToSleep[0], numTimesAwake[0], timeAwake[0], timeOutBed[0], timeGetOutBed[0], 
-                    sleptWell[0], feelNextDay[0], hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[diaryDateToEnter]);
+                    sleptWell[0], nextDayfeelings, hoursInBed, totalTimeAsleep, sleepEfficiencyScore, diaryDateToEnter, dayWeekHash[diaryDateToEnter]);
     
     let [completed, _id] = checkIfAlreadyCompleted(diaryDateToEnter);
+    console.log(data);
 
     if(completed) {
         console.log("patching")
