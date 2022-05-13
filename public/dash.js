@@ -276,6 +276,24 @@ const cardChange = (score, card) => {
     return returnValue;
 }
 
+const groupByMood = (data) => {
+    let moods = [];
+    let moodCounts = new Object();
+
+    data.forEach(itm=> moods.push(itm.nextDayFeeling));
+    
+    for(let i of moods) {
+        if(i in moodCounts) {
+            moodCounts[i] += 1;
+        } else {
+            moodCounts[i] = 1;
+        }
+    }
+
+    return moodCounts;
+
+}
+
 //refactor to not use then
 const plotSleepData = async() => {
     
@@ -305,7 +323,9 @@ const plotSleepData = async() => {
         plotSefData(res);
         renderDiaryTable(filt, diaryTbl);
         //renderDiaryTable(res.sleep.slice(res.sleep.length-7, res.sleep.length), diaryTbl);
-        
+        let moodCounts = groupByMood(res.sleep);
+        console.log("MOOD COUNTS");
+        console.log(moodCounts)
         console.log(res);
     })
     .catch((error)=> {
