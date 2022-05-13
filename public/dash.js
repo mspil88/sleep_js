@@ -1,4 +1,5 @@
 const chart = document.querySelector(".sef-hours-trend");
+const feelChart = document.querySelector(".feelings");
 const sefColor = 'rgb(218,165,32)';
 const sefTarget = 70;
 const targetColor = 'rgb(219,112,147)';
@@ -39,6 +40,31 @@ const layout = {
         }
     };
 
+
+    const barLayout = {
+        autosize: true,
+    
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        showlegend:false,
+        title: {
+            text: '<b>My Next Day Moods</b>',
+            font: {
+                color: "#FFFFFF",
+                size: 18
+            },
+        },
+        yaxis: {color: '#FFFFFF',
+                gridcolor: "rgba(255, 255, 255, 0.3)"},
+        xaxis: {
+            color: '#FFFFFF',
+            gridcolor: "rgba(255, 255, 255, 0.3)",
+            autorange: true,
+            tickfont: {
+                size: 10,
+            },            }
+        };
+
 const createPlotlyTrace = (x, y, color, name, lineWidth, fill=true) => {
     
     tr = {
@@ -60,6 +86,18 @@ const createPlotlyTrace = (x, y, color, name, lineWidth, fill=true) => {
     return tr;
 }
 
+const createBarTrace = (x, y) => {
+    tr = {
+        x: x,
+        y: y,
+        type: 'bar',
+        marker: {
+            color: 'rgba(219, 112, 147, 0.7)'
+        }
+    }
+
+    return [tr];
+}
 
 const getSleepData = async() => {
     const config = {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}};
@@ -98,6 +136,18 @@ const plotSefData = async (result) => {
     const sefTrace = [createPlotlyTrace(sefX, sefY, sefColor, 'SEF score', 2, fill=false)];
     Plotly.newPlot(chart, sefTrace, layout, plotlyConfig);
     return result
+
+}
+
+const plotFeelingsData = async(result) => {
+    let data = result.sleep;
+    let moodCounts = groupByMood(data);
+    const feelX =  Object.keys(moodCounts);
+    const feelY =  Object.values(moodCounts);
+    const feelTrace = createBarTrace(feelX, feelY);
+    Plotly.newPlot(feelChart, feelTrace, barLayout, plotlyConfig);
+    return result
+
 
 }
 
@@ -280,7 +330,7 @@ const groupByMood = (data) => {
     let moods = [];
     let moodCounts = new Object();
 
-    data.forEach(itm=> moods.push(itm.nextDayFeeling));
+    data.forEach(itm=> moods.push(...itm.nextDayFeeling.split(",")));
     
     for(let i of moods) {
         if(i in moodCounts) {
@@ -323,10 +373,7 @@ const plotSleepData = async() => {
         plotSefData(res);
         renderDiaryTable(filt, diaryTbl);
         //renderDiaryTable(res.sleep.slice(res.sleep.length-7, res.sleep.length), diaryTbl);
-        let moodCounts = groupByMood(res.sleep);
-        console.log("MOOD COUNTS");
-        console.log(moodCounts)
-        console.log(res);
+        plotFeelingsData(res);
     })
     .catch((error)=> {
         console.log(error);
