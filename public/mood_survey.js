@@ -121,14 +121,23 @@ const resultsComparison = (parent, depressionScore, anxietyScore) => {
     const thisWeekPrevWeek = document.createElement("div");
     const prevDepression = document.createElement("span");
     const prevAnxiety = document.createElement("span");
-    const [prevDepressionScore, prevAnxietyScore] = JSON.parse(localStorage.getItem("mood"));
+
+    let prevDepressionScore = 0;
+    let prevAnxietyScore = 0;
+    let depressionDiff = 0;
+    let anxietyDiff = 0;
+
+    if(JSON.parse(localStorage.getItem("mood"))) {
+        let [prevDepressionScore, prevAnxietyScore] = JSON.parse(localStorage.getItem("mood"));
+        let depressionDiff = depressionScore - prevDepressionScore;
+        let anxietyDiff = anxietyScore - prevAnxietyScore;
+    }
+
     thisWeekPrevWeek.id = "this-week-prev-week-container";
     prevDepression.id = "prev-depression-score";
     prevAnxiety.id = "prev-anxiety-score";
 
-    const depressionDiff = depressionScore - prevDepressionScore;
-    const anxietyDiff = anxietyScore - prevAnxietyScore;
-
+    
     const setScore = (element, scoreType, scoreDiff) => {
         if(scoreDiff >0) {
             element.textContent = `Your ${scoreType} score has increased by ${scoreDiff}.`
@@ -158,6 +167,7 @@ const moodData = (depressionScore, anxietyScore) => {
 }
 
 const postMoodData = async(moodObj) => {
+    console.log("posting mood")
     const config  = {headers: {Authorization:  `Bearer ${localStorage.getItem("token")}`}};
     await axios.post("api/v1/mood", moodObj, config);
 }
@@ -168,19 +178,23 @@ const getMoodData = async() => {
     return data.data;
 }
 
-window.onload = async (event) => {
-    data = await getMoodData();
-    data = data.mood[data.mood.length-1];
-    const toLocal = [data.depression, data.anxiety, data.createdAt.slice(0, 10)];
-    const currentDate = new Date().toISOString().slice(0, 10);
-    const dayDiff = Math.ceil(Math.abs(new Date(currentDate) - new Date(toLocal[2]))/(1000*60*60*24));
-    localStorage.setItem("mood", JSON.stringify(toLocal));
-    
-    if(dayDiff === 0) {
-        daySinceLastSurvey.textContent = "You last took this survey today."    
-    } else {
-        daySinceLastSurvey.textContent = `You last took this survey ${dayDiff} days ago.`;
+try {
+    window.onload = async (event) => {
+        data = await getMoodData();
+        data = data.mood[data.mood.length-1];
+        const toLocal = [data.depression, data.anxiety, data.createdAt.slice(0, 10)];
+        const currentDate = new Date().toISOString().slice(0, 10);
+        const dayDiff = Math.ceil(Math.abs(new Date(currentDate) - new Date(toLocal[2]))/(1000*60*60*24));
+        localStorage.setItem("mood", JSON.stringify(toLocal));
+        
+        if(dayDiff === 0) {
+            daySinceLastSurvey.textContent = "You last took this survey today."    
+        } else {
+            daySinceLastSurvey.textContent = `You last took this survey ${dayDiff} days ago.`;
+        }
     }
+} catch(err) {
+    console.log(err);
 }
 
 btns.forEach(btn => {
