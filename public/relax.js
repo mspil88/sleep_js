@@ -111,17 +111,25 @@ saveBtn.addEventListener("click", ()=> {
   const myScheduledTasks = getTasksFromContainers(containers[1]);
 
   const taskData = createTasksObj(myTasks, myScheduledTasks);
-  const checkLocal = JSON.parse(localStorage.getItem("tasks"));
+
+  let checkLocal = null;
+
+  try {
+    checkLocal = JSON.parse(localStorage.getItem("tasks"));
+  } catch(err) {
+    console.log(err)
+  }
 
   if(checkLocal) {
     try {
+      
       patchTasksData(checkLocal._id, taskData);
     } catch(error) {
       console.log(error.response.data);
     }
   
     } else {
-    postTasksData(taskData);
+      postTasksData(taskData);
   }
 })
 
@@ -164,10 +172,15 @@ window.onload = async() => {
   console.log("loading and getting tasks")
   let tasksData = await getTasksData();
   localStorage.setItem("tasks", JSON.stringify(tasksData.tasks[0]));
-  const {tasks, scheduledTasks} = tasksData.tasks[0];
-  renderTasks(tasks, wdTasks);
-  renderTasks(scheduledTasks, wdSchedule);
-  assignDeleteListeners();
+  
+  try {
+    const {tasks, scheduledTasks} = tasksData.tasks[0];
+    renderTasks(tasks, wdTasks);
+    renderTasks(scheduledTasks, wdSchedule);
+    assignDeleteListeners();
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 
